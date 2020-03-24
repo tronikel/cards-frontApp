@@ -1,0 +1,57 @@
+<section class="hero home-bg is-fullheight-with-navbar">
+  <div class="hero-body">
+    <div class="container">
+      <div class="uk-flex uk-flex-center">
+        <div class=" uk-card uk-card-default uk-card-body uk-width-1-2@m">
+          <ul class="uk-child-width-expand"
+            uk-tab="animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium">
+            <li><a href="#">Rejoindre une partie</a></li>
+            <li><a href="#">creer une partie</a></li>
+
+          </ul>
+
+          <ul class="uk-switcher uk-margin">
+            <li class=" box-h100 has-text-centered">
+              <form [formGroup]="joinPartyForm" (ngSubmit)="joinParty()">
+                <label class="label uk-align-center"> Saisir un code pour rejoindre une partie </label>
+                <div class="field has-addons has-addons-centered">
+                  <div class="control has-icons-right">
+                    <input class="input" [class.is-success]="!token.invalid && token.touched"
+                      [class.is-danger]="token.invalid && token.touched" type="text" formControlName="token"
+                      placeholder="YXPTEDE">
+                  </div>
+                  <div class="control">
+                    <button type="submit" class="button is-warning uk-align-center">
+                      Rejoindre
+                    </button>
+                  </div>
+
+                </div>
+                <div id="rpm" *ngIf="token.invalid && token.touched">
+                  <small class="has-text-danger" *ngIf="token.errors?.required">Veuillez saisir un code</small>
+                  <small class="has-text-danger" *ngIf="token.errors?.minlength">le code doit contenir au moins 3
+                    lettres</small>
+                </div>
+              </form>
+            </li>
+            <li class="box-h100 has-text-centered">
+              <form [formGroup]="newPartyForm" (ngSubmit)="newParty()">
+                <label class="label"> Clickez sur le bouton pour créer une nouvelle party </label>
+                <div class="field">
+                  <p class="control has-text-centered">
+                    <button type="submit" class="button is-success">
+                      Créer une partie
+                    </button>
+                  </p>
+                </div>
+
+              </form>
+
+            <li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

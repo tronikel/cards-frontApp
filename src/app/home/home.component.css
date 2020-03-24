@@ -1,0 +1,16 @@
+.home-bg{
+    background-image: url(../../assets/image/home-bg.png) ;
+    background-repeat: no-repeat;
+    background-size: 100% auto ;
+    }
+.box-h100 {
+    height: 100px;
+}
+
+.uk-tab > .uk-active > a{
+    border-color: rgb(160,56,146);
+}
+#rpm{
+   
+    margin: 0 auto;
+}

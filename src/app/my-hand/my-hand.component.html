@@ -1,0 +1,6 @@
+<div id="myHand" >
+	<div class="row uk-flex" >
+		<app-card  *ngFor="let num of cards" [number]="num" [id]="setid(num)" (cardHighlighted)="highlightCard($event)" (cardSelected)="playCard($event)"></app-card>
+	</div>
+	
+</div>

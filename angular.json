@@ -24,9 +24,16 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bulma/css/bulma.css",
+              "node_modules/uikit/dist/css/uikit.css",
+              "node_modules/font-awesome/css/font-awesome.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/uikit/dist/js/uikit.min.js",
+              "node_modules/uikit/dist/js/uikit-icons.min.js"    
+            ]
           },
           "configurations": {
             "production": {

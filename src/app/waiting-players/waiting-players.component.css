@@ -1,0 +1,67 @@
+.home-bg{
+    background-image: url(../../assets/image/home-bg.png) ;
+    background-repeat: no-repeat;
+	background-size: 100% auto ;
+    }   
+#pokemons div.available.selected:hover {
+    box-shadow: 0 6px 18px rgba(255,0,0,0.5);
+}
+#pokemons div.available.selected {
+    box-shadow: 0 6px 18px rgba(255,0,0,0.5);
+}
+#pokemons div.available:hover{
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+#pokemons div.unavailable {cursor: not-allowed;}
+#pokemons div.Pikachu.unavailable{
+    background-color:#ffd900        ;
+    opacity: 0.4;
+}
+
+#pokemons div.Charmander.unavailable{
+    background-color:#f77919        ;
+    opacity: 0.4;
+}
+
+#pokemons div.Squirtle.unavailable{
+    background-color:#7fe5d7        ;
+    opacity: 0.4;
+}
+
+#pokemons div.Jigglypuff.unavailable{
+    background-color:#efa3cc        ;
+    opacity: 0.4;
+}
+#pokemons div.Bullbasaur.unavailable{
+    background-color:#47c656        ;
+    opacity: 0.4;
+}
+
+#pokemons div.Meowth.unavailable{
+    background-color:#c4ba86        ;
+    opacity: 0.4;
+}
+#pokemons div.Eevee.unavailable{
+    background-color:#47c656        ;
+    opacity: 0.4;
+}
+#pokemons div.Zubat.unavailable{
+    background-color:#323662        ;
+    opacity: 0.4;
+}
+#pokemons div.Rattata.unavailable{
+    background-color:#a962e8        ;
+    opacity: 0.4;
+}
+.red{
+    background-color: red;
+}
+span.uk-icon svg{
+    color:red;
+}
+svg{
+    color:red!important;
+}
+span.uk-icon svg path{
+    fill: green;
+}

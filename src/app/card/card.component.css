@@ -1,0 +1,13 @@
+div > img {
+	vertical-align: initial;
+	cursor: pointer;
+	width: 60px;
+	height: 100px;
+}
+.pokecard{
+	margin: 0 4px;
+}
+
+.selectedCard{
+	border: 3px lightgrey solid;
+}

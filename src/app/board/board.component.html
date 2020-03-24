@@ -1,0 +1,41 @@
+<section class="hero home-bg is-fullheight-with-navbar">
+	<div id="players-nav ">
+
+		<div class="borderRed bgr1 -grid-collapse uk-child-width-expand@s uk-text-center" uk-grid>
+			<app-player *ngFor="let player of players" [class.uk-hidden]="isCurrent(player)"
+				[isCurrent]="isCurrent(player)" [player]="player"></app-player>
+		</div>
+
+	</div>
+	<div id="card-board" uk-grid>
+
+		<div class="uk-width-expand">
+
+		</div>
+		<div class=" ">
+			<div class="row uk-flex" *ngFor="let row of board.table">
+				<app-card *ngFor="let card of row" [number]="card.number" isBoard="true"></app-card>
+			</div>
+		</div>
+		<div class="uk-width-expand">
+
+		</div>
+
+	</div>
+
+
+	<div id="mygame">
+		<div uk-grid>
+			<div >
+				<app-player  [player]="currentPlayer"></app-player>
+			</div>
+			<div >
+				<app-my-hand [hasPlayed]="currentPlayer.getHasPlayed()" [username]="currentPlayer.getUsername() "
+					[myHand]="currentPlayer.getHand()"></app-my-hand>
+			</div>
+		</div>
+		<app-chat></app-chat>
+	</div>
+
+
+</section>

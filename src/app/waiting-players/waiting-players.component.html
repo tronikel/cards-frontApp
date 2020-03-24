@@ -1,0 +1,105 @@
+<section class="hero home-bg is-fullheight-with-navbar">
+  <div class="hero-body">
+    <div class="container">
+      <div class="uk-flex uk-flex-center">
+        <div class=" uk-card uk-card-default uk-card-body uk-width-1-2@m">
+
+          <h2 class="has-text-centered"> Code de la partie : {{code}} </h2>
+          <ul class="uk-tab uk-child-width-expand" uk-switcher>
+            <li><a href="#">Choisir un pseudo</a></li>
+            <li><a href="#">Choisir un pokemon</a></li>
+            <li><a href="#">Lancer la partie</a></li>
+          </ul>
+
+          <ul class="uk-switcher uk-margin">
+            <li class=" box-h100 has-text-centered">
+              <form [formGroup]="selectPseudoForm" >
+                <div class="field">
+                  <label class="label">Entrez un pseudo</label>
+                  <div class="field has-addons has-addons-centered ">
+
+                    <div class="control has-icons-left has-icons-right">
+                      <span class="icon is-small is-left">
+                        <i class="fa fa-user"></i>
+                      </span>
+                      <input class="input" [class.is-success]="!pseudo.invalid && pseudo.touched"
+                        [class.is-danger]="pseudo.invalid && pseudo.touched" type="text" formControlName="pseudo"
+                        placeholder="Sacha">
+                    </div>
+                    <div class="control">
+                      <button uk-switcher-item="next" class="button is-primary"
+                        (click)="UpdateCurrentUserName(pseudo.value)" [attr.disabled]="pseudo.invalid? '': null">
+                        <span uk-icon="icon: arrow-right"></span>
+                      </button>
+
+                    </div>
+                  </div>
+                  <div *ngIf="pseudo.invalid && pseudo.touched">
+                    <p class="help is-danger" *ngIf="pseudo.errors?.required">Veuillez saisir un Pseudo</p>
+                    <p class="help is-danger" *ngIf="pseudo.errors?.minlength">Votre Pseudo doit contenir au moins 3
+                      lettres</p>
+                  </div>
+                </div>
+
+
+              </form>
+            </li>
+            <li class="box-h100 has-text-centered">
+
+              <label class="label"> Selection un pokemon </label>
+              <div id="pokemons" class=" uk-flex uk-margin-auto  uk-flex-between uk-text-center" uk-grid>
+                <div class="uk-card uk-card-default uk-card-small uk-card-body available {{obj.name}} "
+                  *ngFor="let obj of pokemonsList;let i = index" (click)="selectPokemon( $event, i ,obj.name)">
+                  <div class="uk-text-center">
+                    <img class="uk-border-circle" width="60" height="60"
+                      src="../../assets/image/pokemon/{{obj.image}}.svg">
+                    <p class="pokecarddetail">
+                      <span class="uk-label uk-label-success">{{obj.name}}</span>
+                    </p>
+
+                    <p *ngIf="obj.master==='inconnu'; else elseBlock">
+                      <small class="help">Ce pokemon est libre </small>
+                  
+                    </p>
+                    <ng-template #elseBlock>
+                      <p> <small class="help"> Selectionner par {{obj.master}}</small></p>
+                    </ng-template>
+
+                    <span (click)="sendPokemonChoice( $event, i ,obj.name)" class="uk-badge is-hidden"> <a href="#"
+                        class="uk-link-reset " uk-switcher-item="next"><span uk-icon="icon: arrow-right"></span></a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="box-h100 has-text-centered">
+              <label class="label"> Liste des joueurs connectés</label>
+              <ul id="connectedUsers" class="uk-list uk-list-striped">
+
+
+              </ul>
+              <div *ngIf="ismaster()">
+                <p class="uk-margin-small-top">
+                  <button uk-switcher-item="next" (click)="startParty()" class="button is-success">
+                    Lancer la partie
+                  </button>
+                </p>
+              </div>
+              <div *ngIf="!ismaster()">
+                <p>
+                  <small class="help uk-text-warning">
+                    Veuillez attendre que l'administrateur lance la partie
+                  </small>
+                </p>
+              </div>
+              
+
+
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
