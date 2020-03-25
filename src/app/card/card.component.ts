@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Card } from '../models/card';
 import * as $ from 'jquery';
 @Component({
   selector: 'app-card',
@@ -19,13 +20,12 @@ export class CardComponent implements OnInit {
 
   ngOnInit() {
     this.color = this.isBoard ? 'FFFFFF' : 'F5F5F5';
-    if (this.isBoard) {
-      console.log("number = " + this.number);
-    }
+
   }
-  setcontent()  {
+  setcontent() {
     return ((this.number === 0) ? '?' : this.number);
   }
+
   singleClick() {
     if (this.isBoard) {
       return;
@@ -50,5 +50,12 @@ export class CardComponent implements OnInit {
     // alert('Double Click Event');
     this.cardSelected.emit(this.number);
   }
-
+  getballs() {
+    return '../../assets/image/pokemon/' + (new Card(this.number)).getBall() + 'balls.png';
+  }
+  isnull() {
+    let test = false;
+    test = (this.number === 0);
+    return test as boolean;
+  }
 }

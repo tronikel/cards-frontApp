@@ -1,3 +1,21 @@
 <div class="pokecard" (click)="singleClick()" (dblclick)="doubleClick()">
-	<img  [src]="'https://placehold.it/60x100/' + color + '?text=' + setcontent()">
+	<div style="width:70px; height:100px" class="card" *ngIf="isnull(); else elseBlock" >
+		
+
+		
+	</div>
+	<ng-template #elseBlock>
+		<div style="width:70px; height:100px" class="card">
+		
+
+			<div  class="card-top">
+	
+				<span class=" uk-text-center ">Carte: #{{number}}</span>
+	
+			</div>
+			<div class="card-bottom">
+				<img [src]=getballs() class="picked " />
+			</div>
+		</div>
+	</ng-template>
 </div>
