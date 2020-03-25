@@ -8,7 +8,7 @@ import { GameService } from './game.service';
   providedIn: 'root'
 })
 export class ChatService {
-  private url = 'http://localhost:3000';
+  private url = 'http://18.224.183.130:3000/';
   private socket;
   private subSocket;
   private msg = {};
