@@ -14,27 +14,11 @@
     </button> -->
   </div>
   <div class="chatbox__body">
-    <div class="chatbox__body__message chatbox__body__message--right">
-      <img src="https://s3.amazonaws.com/uifaces/faces/twitter/arashmil/128.jpg" alt="Picture">
-      <p>Nulla vel turpis vulputate, tincidunt lectus sed, porta arcu.</p>
-    </div>
-    <div class="chatbox__body__message chatbox__body__message--left">
-      <img src="https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg" alt="Picture">
-      <p>Curabitur consequat nisl suscipit odio porta, ornare blandit ante maximus.</p>
-    </div>
-    <div class="chatbox__body__message chatbox__body__message--right">
-      <img src="https://s3.amazonaws.com/uifaces/faces/twitter/arashmil/128.jpg" alt="Picture">
-      <p>Cras dui massa, placerat vel sapien sed, fringilla molestie justo.</p>
-    </div>
-    <div class="chatbox__body__message chatbox__body__message--right">
-      <img src="https://s3.amazonaws.com/uifaces/faces/twitter/arashmil/128.jpg" alt="Picture">
-      <p>Praesent a gravida urna. Mauris eleifend, tellus ac fringilla imperdiet, odio dolor sodales libero, vel mattis elit mauris id erat. Phasellus leo nisi, convallis in euismod at, consectetur commodo urna.</p>
-    </div>
     <div class="chatbox__body__message"
     *ngFor="let msg of messages" 
-    [ngClass]="{'chatbox__body__message--left': !isMine(msg.from), 'chatbox__body__message--right': isMine(msg.from)}">
-      <img src="https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg" alt="Picture">
-      <p>{{msg.value}}</p>
+    [ngClass]="{'chatbox__body__message--left': !isMine(msg.content.from), 'chatbox__body__message--right': isMine(msg.content.from)}">
+      <img class="{{msg.content.from.pokemon}}" src="{{getPokemonImage(msg.content.from)}}" alt="Picture">
+      <p>{{msg.content.content}}</p>
     </div>
   </div>
   <!-- <form class="chatbox__credentials">
@@ -48,6 +32,6 @@
     </div>
     <button type="submit" class="btn btn-success btn-block">Enter Chat</button>
   </form> -->
-  <textarea class="chatbox__message" placeholder="Write something interesting" 
+  <textarea class="chatbox__message" placeholder="saisir un message" 
   [(ngModel)]="message" (keyup.enter)="sendMessage()"></textarea>
 </div>

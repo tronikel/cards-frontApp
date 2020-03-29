@@ -9,8 +9,8 @@ import * as $ from 'jquery';
 export class CardComponent implements OnInit {
   preventSingleClick = false;
   timer: any;
-  delay: Number;
-  color: String;
+  delay: number;
+  @Input() color: string;
   @Input() number: number;
   @Input() isBoard: boolean;
   @Output() cardSelected = new EventEmitter<number>();
@@ -19,7 +19,6 @@ export class CardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.color = this.isBoard ? 'FFFFFF' : 'F5F5F5';
 
   }
   setcontent() {
@@ -52,6 +51,10 @@ export class CardComponent implements OnInit {
   }
   getballs() {
     return '../../assets/image/pokemon/' + (new Card(this.number)).getBall() + 'balls.png';
+  }
+
+  getColor(){
+    return this.color;
   }
   isnull() {
     let test = false;

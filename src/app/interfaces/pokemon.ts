@@ -3,5 +3,5 @@ export interface IPokemon {
     image: string;
     color: string;
     master: string;
-    selected: string;
+    selected: boolean;
 }

@@ -31,11 +31,50 @@ div > img {
 
 } 
 .card-bottom{
-	height: 80px;
-		
+	height: 80px;	
 }
 
-.picked{
-	
+.picked{	
 	color: black;
+}
+
+.card.Pikachu{
+	border: 1px solid rgba(255, 217, 0, 1);
+    box-shadow: 1px 1px 5px 2px rgba(255, 217, 0, 1);
+}
+
+.card.Charmander{
+	border: 1px solid rgba(247, 121, 25, 1);
+    box-shadow: 1px 1px 5px 2px rgba(247, 121, 25, 1);
+}
+
+.card.Squirtle{
+	border: 1px solid rgba(127, 229, 215, 1);
+    box-shadow: 1px 1px 5px 2px rgba(127, 229, 215, 1);
+}
+
+.card.Jigglypuff{
+	border: 1px solid rgba(239, 163, 204, 1);
+    box-shadow: 1px 1px 5px 2px rgba(239, 163, 204, 1);
+}
+.card.Bullbasaur{
+	border: 1px solid rgba(71, 198, 86, 1);
+    box-shadow: 1px 1px 5px 2px rgba(71, 198, 86, 1);
+}
+
+.card.Meowth{
+	border: 1px solid rgba(196, 186, 134, 1);
+    box-shadow: 1px 1px 5px 2px rgba(196, 186, 134, 1);
+}
+.card.Eevee{
+	border: 1px solid rgba(196, 131, 61, 1);
+    box-shadow: 1px 1px 5px 2px rgba(196, 131, 61, 1);
+}
+.card.Zubat{
+	border: 1px solid rgba(50, 54, 98, 1);
+    box-shadow: 1px 1px 5px 2px rgba(50, 54, 98, 1);
+}
+.card.Rattata{
+	border: 1px solid rgba(169, 98, 232, 1);
+    box-shadow: 1px 1px 5px 2px rgba(169, 98, 232, 1);
 }

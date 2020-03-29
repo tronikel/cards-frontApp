@@ -57,6 +57,7 @@ export class GameService {
   init(code, usertype) {
     this.code = code;
     this.players = new Array<Player>();
+    this.status = this.STATUS.WAITING;
     const username = 'inconnu' + this.players.length;
     const ismaster: boolean = usertype === 'master';
     //console.log(usertype + 'ismaster : ' + (usertype === 'master'));
@@ -100,6 +101,9 @@ export class GameService {
         }
       }, 1000);
     });
+  }
+  statusIsNotWaiting() {
+    return !((this.status === this.STATUS.READY) || (this.status === this.STATUS.STARTED));
   }
   emitCurrentPlayer() {
     this.currentPlayerSubject.next(this.currentPlayer);
@@ -263,8 +267,10 @@ export class GameService {
           this.emitNotif();
           this.getPlayerByname(element.username).addBalls(this.total);
           this.board.table[v[3].l][0] = new Card(element.playedCard);
+          (this.board.table[v[3].l][0]).setColor(this.getPlayerByname(element.username).getPokemon());
         } else {
           this.board.table[v[3].l][v[3].c + 1] = new Card(element.playedCard);
+          (this.board.table[v[3].l][v[3].c + 1]).setColor(this.getPlayerByname(element.username).getPokemon());
         }
       } else {
         if (element.playedCard > v[2].n) {
@@ -282,8 +288,10 @@ export class GameService {
             this.emitNotif();
             this.getPlayerByname(element.username).addBalls(this.total);
             this.board.table[v[2].l][0] = new Card(element.playedCard);
+            (this.board.table[v[2].l][0]).setColor(this.getPlayerByname(element.username).getPokemon());
           } else {
             this.board.table[v[2].l][v[2].c + 1] = new Card(element.playedCard);
+            (this.board.table[v[2].l][v[2].c + 1]).setColor(this.getPlayerByname(element.username).getPokemon());
           }
         } else {
           if (element.playedCard > v[1].n) {
@@ -302,8 +310,10 @@ export class GameService {
               this.emitNotif();
               this.getPlayerByname(element.username).addBalls(this.total);
               this.board.table[v[1].l][0] = new Card(element.playedCard);
+              (this.board.table[v[1].l][0]).setColor(this.getPlayerByname(element.username).getPokemon());
             } else {
               this.board.table[v[1].l][v[1].c + 1] = new Card(element.playedCard);
+              (this.board.table[v[1].l][v[1].c + 1]).setColor(this.getPlayerByname(element.username).getPokemon());
             }
           } else {
             if (element.playedCard > v[0].n) {
@@ -322,8 +332,10 @@ export class GameService {
                 this.emitNotif();
                 this.getPlayerByname(element.username).addBalls(this.total);
                 this.board.table[v[0].l][0] = new Card(element.playedCard);
+                (this.board.table[v[0].l][0]).setColor(this.getPlayerByname(element.username).getPokemon());
               } else {
                 this.board.table[v[0].l][v[0].c + 1] = new Card(element.playedCard);
+                (this.board.table[v[0].l][v[0].c + 1]).setColor(this.getPlayerByname(element.username).getPokemon());
               }
             } else {
               const temp = { i: 0, t: 10000000000 };
@@ -349,6 +361,7 @@ export class GameService {
                 this.board.table[this.ligne][i] = new Card(0);
               }
               this.board.table[this.ligne][0] = new Card(element.playedCard);
+              (this.board.table[this.ligne][0]).setColor(this.getPlayerByname(element.username).getPokemon());
             }
 
           }
@@ -361,7 +374,7 @@ export class GameService {
       e.setHasPlayed(false);
       e.setRank(1);
       this.players.forEach((t: Player) => {
-        if (e.getPickedBalls() > t.getPickedBalls()){
+        if (e.getPickedBalls() > t.getPickedBalls()) {
           e.setRank(e.getRank() + 1);
         }
 

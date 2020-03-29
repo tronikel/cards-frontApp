@@ -28,3 +28,43 @@ p.username{
 	font: bold 20px Georgia, serif;
 	margin-left: 8px;
 }
+span.Pikachu.uk-label{
+    background-color:#ffd900        ;
+    opacity:1;
+}
+
+span.Charmander.uk-label{
+    background-color:#f77919        ;
+    opacity:1;
+}
+
+span.Squirtle.uk-label{
+    background-color:#7fe5d7        ;
+    opacity:1;
+}
+
+span.Jigglypuff.uk-label{
+    background-color:#efa3cc        ;
+    opacity:1;
+}
+span.Bullbasaur.uk-label{
+    background-color:#47c656        ;
+    opacity:1;
+}
+
+span.Meowth.uk-label{
+    background-color:#c4ba86        ;
+    opacity:1;
+}
+span.Eevee.uk-label{
+    background-color:#c4833d;      ;
+    opacity:1;
+}
+span.Zubat.uk-label{
+    background-color:#323662        ;
+    opacity:1;
+}
+span.Rattata.uk-label{
+    background-color:#a962e8        ;
+    opacity:1;
+}

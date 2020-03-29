@@ -4,14 +4,14 @@
     "image": "002-pikachu",
     "color": "#ffd900",
     "master": "inconnu",
-    "selected":"false"
+    "selected":false
   },
   {
     "name": "Charmander",
     "image": "005-charmander",
     "color": "#f77919",
     "master": "inconnu",
-    "selected":"false"
+    "selected":false
 
   },
   {
@@ -19,7 +19,7 @@
     "image": "009-squirtle",
     "color": "#7fe5d7",
     "master": "inconnu",
-    "selected":"false"
+    "selected":false
 
   },
   {
@@ -27,7 +27,7 @@
     "image": "007-jigglypuff",
     "color": "#efa3cc",
     "master": "inconnu",
-    "selected":"false"
+    "selected":false
 
   },
   {
@@ -35,7 +35,7 @@
     "image": "006-bullbasaur",
     "color": "#47c656",
     "master": "inconnu",
-    "selected":"false"
+    "selected":false
 
   },
   {
@@ -43,7 +43,7 @@
     "image": "011-meowth",
     "color": "#c4ba86",
     "master": "inconnu",
-    "selected":"false"
+    "selected":false
 
   },
   {
@@ -51,7 +51,7 @@
     "image": "010-eevee",
     "color": "#d3964c",
     "master": "inconnu",
-    "selected":"false"
+    "selected":false
 
   },
   {
@@ -59,7 +59,7 @@
     "image": "022-rattata",
     "color": "#a962e8",
     "master": "inconnu",
-    "selected":"false"
+    "selected":false
 
   },
   {
@@ -67,7 +67,7 @@
     "image": "018-zubat",
     "color": "#323662",
     "master": "inconnu",
-    "selected":"false"
+    "selected":false
 
   }
  

@@ -12,7 +12,8 @@
 #pokemons div.available:hover{
     box-shadow: 0 6px 18px rgba(0,0,0,0.2);
 }
-#pokemons div.unavailable {cursor: not-allowed;}
+#pokemons div.uk-label {cursor: not-allowed;}
+
 #pokemons div.Pikachu.unavailable{
     background-color:#ffd900        ;
     opacity: 0.4;
@@ -64,4 +65,48 @@ svg{
 }
 span.uk-icon svg path{
     fill: green;
+}
+.uk-tab > * > a{
+    pointer-events: none !important;
+    cursor: default !important;
+}
+#connectedUsers span.Pikachu.uk-label{
+    background-color:#ffd900        ;
+    opacity:1;
+}
+
+#connectedUsers span.Charmander.uk-label{
+    background-color:#f77919        ;
+    opacity:1;
+}
+
+#connectedUsers span.Squirtle.uk-label{
+    background-color:#7fe5d7        ;
+    opacity:1;
+}
+
+#connectedUsers span.Jigglypuff.uk-label{
+    background-color:#efa3cc        ;
+    opacity:1;
+}
+#connectedUsers span.Bullbasaur.uk-label{
+    background-color:#47c656        ;
+    opacity:1;
+}
+
+#connectedUsers span.Meowth.uk-label{
+    background-color:#c4ba86        ;
+    opacity:1;
+}
+#connectedUsers span.Eevee.uk-label{
+    background-color:#c4833d;        
+    opacity:1;
+}
+#connectedUsers span.Zubat.uk-label{
+    background-color:#323662        ;
+    opacity:1;
+}
+#connectedUsers span.Rattata.uk-label{
+    background-color:#a962e8        ;
+    opacity:1;
 }

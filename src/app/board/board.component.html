@@ -14,7 +14,7 @@
 		</div>
 		<div class=" ">
 			<div class="row uk-flex" *ngFor="let row of board.table">
-				<app-card *ngFor="let card of row" [number]="card.number" isBoard="true"></app-card>
+				<app-card *ngFor="let card of row" [color]="card.color" [number]="card.number" isBoard="true"></app-card>
 			</div>
 		</div>
 		<div class="uk-width-expand">

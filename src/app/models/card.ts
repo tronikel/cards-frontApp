@@ -1,6 +1,7 @@
 export class Card {
     private ball: number;
     private number: number;
+    color: string;
 
 
     constructor( n: number) {
@@ -34,5 +35,11 @@ export class Card {
         }
         setBall(b: number) {
             this.ball = b;
+        }
+        setColor(c: string) {
+            this.color = c;
+        }
+        getColor() {
+            return this.color;
         }
     }

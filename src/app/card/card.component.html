@@ -1,11 +1,11 @@
 <div class="pokecard" (click)="singleClick()" (dblclick)="doubleClick()">
-	<div style="width:70px; height:100px" class="card" *ngIf="isnull(); else elseBlock" >
+	<div style="width:70px; height:100px" class="card {{color}}" *ngIf="isnull(); else elseBlock" >
 		
 
 		
 	</div>
 	<ng-template #elseBlock>
-		<div style="width:70px; height:100px" class="card">
+		<div style="width:70px; height:100px" class="card {{color}}">
 		
 
 			<div  class="card-top">

@@ -8,7 +8,8 @@ import { GameService } from './game.service';
   providedIn: 'root'
 })
 export class ChatService {
-  private url = 'http://18.224.183.130:3000';
+  private url = 'http://localhost:3000';
+  //private url = 'http://18.224.183.130:3000';
   private socket;
   private subSocket;
   private msg = {};
@@ -23,11 +24,11 @@ export class ChatService {
       id: this.gameService.getCode(),
       from: this.gameService.getCurrentPlayer(),
       status: this.gameService.getStatus(),
-      content: null
+      content: this.gameService.getCode(),
     };
     this.socket.emit('new-connection', this.msg);
     console.log('new connection emmited');
-   
+
 
   }
 
@@ -39,6 +40,7 @@ export class ChatService {
       });
     });
   }
+
   getNewConnections = () => {
     return new Observable(observer => {
       this.socket.on('new-connection-' + this.gameService.getCode(), (message) => {
@@ -65,16 +67,35 @@ export class ChatService {
       status: this.gameService.getStatus(),
       content: message
     };
-    this.socket.emit('new-message', this.msg);
+    this.subSocket.emit('new-message', this.msg);
+    console.log ('new-message emit :' + message );
   }
 
-  getMessages = () => {
+  askForUpdatedPlayers() {
+    this.msg = {
+      id: this.gameService.getCode(),
+      from: this.gameService.getCurrentPlayer(),
+      status: this.gameService.getStatus(),
+      content: this.gameService.getCode(),
+    };
+    this.socket.emit('Ask-ForPlayersUpdate', this.msg);
+  }
+
+  getPlayersUpdatedRequest = () => {
+    return new Observable(observer => {
+      this.socket.on('PlayersUpdateRequest', (message) => {
+        observer.next(message);
+      });
+    });
+  }
+
+  /*getMessages = () => {
     return new Observable(observer => {
       this.socket.on('new-message-' + this.gameService.getCode(), (message) => {
         observer.next(message);
       });
     });
-  }
+  }*/
 
   addNewPlayer() {
     this.msg = {
@@ -84,9 +105,10 @@ export class ChatService {
       content: this.gameService.getCurrentPlayer()
     };
     this.subSocket.emit('new-player', this.msg);
-    console.log('new Player : ' + this.gameService.getCurrentPlayer().getUsername() );
+    console.log('new Player : ' + this.gameService.getCurrentPlayer().getUsername());
   }
-  startParty(code){
+
+  startParty(code) {
     this.msg = {
       id: this.gameService.getCode(),
       from: this.gameService.getCurrentPlayer(),
@@ -94,7 +116,7 @@ export class ChatService {
       content: code,
     };
     this.subSocket.emit('start-party', this.msg);
-    console.log('start party : ' + this.gameService.getCurrentPlayer().getUsername() );
+    console.log('start party : ' + this.gameService.getCurrentPlayer().getUsername());
 
   }
 
@@ -106,13 +128,21 @@ export class ChatService {
       content: message,
     };
     this.subSocket.emit('update-party', this.msg);
-    console.log('update-party : ' + this.gameService.getCurrentPlayer().getUsername() );
+    console.log('update-party : ' + this.gameService.getCurrentPlayer().getUsername());
   }
 
   observePartyUpdate = () => {
     return new Observable(observer => {
       this.subSocket.on('update-party', (message) => {
-       observer.next(message);
+        observer.next(message);
+      });
+    });
+  }
+
+  observeNewMessage = () => {
+    return new Observable(observer => {
+      this.subSocket.on('new-message', (message) => {
+        observer.next(message);
       });
     });
   }
@@ -121,15 +151,26 @@ export class ChatService {
   observePartyStart = () => {
     return new Observable(observer => {
       this.subSocket.on('start-party', (message) => {
-       observer.next(message);
+        observer.next(message);
       });
     });
   }
-  getPlayersUpadted = () => {
+
+  getPlayersUpdated = () => {
     return new Observable(observer => {
       this.subSocket.on('update-players', (message) => {
-       observer.next(message);
+        observer.next(message);
       });
     });
   }
+  observePlayerUpdate = () => {
+    return new Observable(observer => {
+      this.subSocket.on('PlayersUpdateRequest', (message) => {
+        if (this.gameService.getCurrentPlayer().getIsMainUser()) {
+          observer.next(message);
+        }
+      });
+    });
+  }
+
 }

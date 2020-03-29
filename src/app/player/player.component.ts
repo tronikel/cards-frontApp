@@ -36,7 +36,9 @@ export class PlayerComponent implements OnInit {
   getHasPlayed() {
     return this.player.getHasPlayed();
   }
-
+  getPokemonName() {
+    return this.player.getPokemon();
+  }
   setpickedBalls(pb: number) {
     this.player.setPickedBalls(pb);
   }

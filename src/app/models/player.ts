@@ -26,7 +26,7 @@ export class Player {
         r.hand = r.hand;
         return r;
     }
-    addBalls(t){
+    addBalls(t) {
         this.pickedBalls = this.pickedBalls + t;
     }
     getUsername() {

@@ -60,19 +60,20 @@ export class WaitingPlayersComponent implements OnInit {
       this.pokemonsList = allPokemons as IPokemon[];
       this.initselectPseudoForm();
       this.gameService.init(id, userType);
-
       console.log(this.gameService.getCurrentPlayer());
       this.chatService.initSocket();
       this.chatService.getNewsubConnections().subscribe((message) => {
         console.log(message);
         this.updatePlayers(message['content']);
       });
-      this.chatService.getPlayersUpadted().subscribe((message) => {
+      this.chatService.getPlayersUpdated().subscribe((message) => {
         console.log('players update received');
         console.log(message);
         this.updatePlayers(message['content']);
       });
-
+      this.chatService.observePartyStart().subscribe((message) => {
+        this.updatePlayers(message['content']);
+      });
       this.chatService.observePartyStart().subscribe((message) => {
         console.log('Start party');
         if (this.gameService.isReady) {
@@ -113,7 +114,7 @@ export class WaitingPlayersComponent implements OnInit {
         result = e.image;
       }
     });
-    return result;
+    return '../../assets/image/pokemon/' + result + '.svg';
   }
   selectPokemon(event, i, name) {
     console.log(i);
@@ -135,6 +136,7 @@ export class WaitingPlayersComponent implements OnInit {
     }
     return result;
   }
+
 
   sendPokemonChoice(event, i, name) {
     this.currentPlayer.setPokemon(name);
@@ -198,9 +200,18 @@ export class WaitingPlayersComponent implements OnInit {
     console.log(this.gameService.getPlayers());
     console.log("players listed");
     $('#connectedUsers').empty();
+    this.players = [];
     this.gameService.getPlayers().forEach((e) => {
       ///  console.log(e.getPokemon());
-      $('#connectedUsers').append('<li> <div class="uk-grid-small uk-flex-middle" uk-grid> '
+      this.players.push(e);
+      this.pokemonsList.forEach((b) => {
+        if (e.getPokemon() === b.name) {
+            b.selected = true;
+            b.master = e.getUsername();
+        }
+      });
+
+      /*$('#connectedUsers').append('<li> <div class="uk-grid-small uk-flex-middle" uk-grid> '
         + '<div class="uk-width-auto"> <img class="uk-align-center uk-align-middle@m  uk-border-circle"  src="'
         + '../../assets/image/pokemon/' + this.getPokemonImage(e.getPokemon())
         + '.svg" width="40" height="40" alt="Example image"> </div>'
@@ -209,7 +220,7 @@ export class WaitingPlayersComponent implements OnInit {
       $('#pokemons div.' + e.getPokemon()).removeClass('available');
       $('#pokemons div.' + e.getPokemon()).addClass('unavailable');
       $('#pokemons div.' + e.getPokemon() + ' small.help')
-        .html('<small class="help uk-text-bold"> Selectionné par ' + e.getUsername() + '</small></p>');
+        .html('<small class="help uk-text-bold"> Selectionné par ' + e.getUsername() + '</small></p>');*/
     });
   }
 }

@@ -217,3 +217,44 @@
 .chatbox--empty .chatbox__credentials {
     display: block;
 }
+
+.chatbox__body__message img.Pikachu{
+	border: 1px solid rgba(255, 217, 0, 1);
+   
+}
+
+.chatbox__body__message img.Charmander{
+	border: 1px solid rgba(247, 121, 25, 1);
+   
+}
+
+.chatbox__body__message img.Squirtle{
+	border: 1px solid rgba(127, 229, 215, 1);
+    
+}
+
+.chatbox__body__message img.Jigglypuff{
+	border: 1px solid rgba(239, 163, 204, 1);
+  
+}
+.chatbox__body__message img.Bullbasaur{
+	border: 1px solid rgba(71, 198, 86, 1);
+  
+}
+
+.chatbox__body__message img.Meowth{
+	border: 1px solid rgba(196, 186, 134, 1);
+    
+}
+.chatbox__body__message img.Eevee{
+	border: 1px solid rgba(196, 131, 61, 1);
+   
+}
+.chatbox__body__message img.Zubat{
+	border: 1px solid rgba(50, 54, 98, 1);
+   
+}
+.chatbox__body__message img.Rattata{
+	border: 1px solid rgba(169, 98, 232, 1);
+  
+}
