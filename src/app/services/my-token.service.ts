@@ -9,6 +9,7 @@ import { throwError } from 'rxjs';
 })
 export class MyTokenService {
 
+  public test: boolean;
 
   newTokenUrl = 'http://18.224.183.130:3000/newtoken';
   //newTokenUrl = ' http://localhost:3000/newtoken'; 
