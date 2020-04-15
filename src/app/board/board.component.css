@@ -47,16 +47,16 @@ background-color: white;
 animation: shower 3s;
 }
 @keyframes shower {
-from {margin-top:-190px;}
+from {margin-top:-125px;}
 to {margin-top: 0px;}
 }
 #sub_nav.hidden{
 animation: hidder 3s;
-margin-top: -190px;
+margin-top: -125px;
 }
 @keyframes hidder {
 from {margin-top:0px;}
-to {margin-top: -190px;}
+to {margin-top: -125px;}
 }
 
 
