@@ -10,8 +10,8 @@ import { throwError } from 'rxjs';
 export class UsernameService {
   public test: boolean;
 
-  // checkTokenUrl = 'http://18.224.183.130:3000/checkusername;
-  checkUsernameUrl = 'http://localhost:3000/checkusername';
+  checkUsernameUrl = 'http://18.224.183.130:3000/checkusername';
+  //checkUsernameUrl = 'http://localhost:3000/checkusername';
   constructor(private theHttp: HttpClient) { }
 
 
