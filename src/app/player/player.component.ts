@@ -3,6 +3,9 @@ import allPokemons from '../../assets/json/pokemons.json';
 import { IPokemon } from '../interfaces/pokemon';
 import { Player } from '../models/player';
 import { GameService } from '../services/game.service';
+import { Subscription } from 'rxjs';
+import * as $ from 'jquery';
+declare var UIkit: any;
 
 @Component({
   selector: 'app-player',
@@ -13,19 +16,63 @@ export class PlayerComponent implements OnInit {
 
   @Input() player: Player;
   @Input() isCurrent: boolean;
+  rankPrefixe: string[] = ['-', 'er', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e'];
+  
+  minutes;
+  secondes;
+  currentPlayerSubject: Subscription;
+  cptSubcription: Subscription;
+  cptClass ="uk-text-secondary";
 
   pokemonsList: IPokemon[];
 
-  constructor() {
+  constructor(private gameService: GameService) {
+    this.minutes = "02";
+    this.secondes = "00";
+    this.cptSubcription = this.gameService.cptSubject.subscribe(
+      (cpt: number) => {
+        if (cpt < 10) {
+          this.cptClass = "uk-text-danger";
+        } else {
+          if (cpt < 30) {
+            this.cptClass = "uk-text-warning";
+          } else {
+            this.cptClass = "uk-text-secondary";
+          }
 
+        }
+        if (!(this.player.getHasPlayed())) {
+          this.setSecondes(cpt);
+          this.setMinutes(cpt);
+        }
+        //this.currentPlayer = currentPlayer;
+        // console.log("board : current player Update");
+      }
+    );
   }
-
   ngOnInit() {
     this.pokemonsList = allPokemons as IPokemon[];
+
+
   }
+
+  stopCpt() {
+    console.log('stop cpt');
+  }
+  setSecondes(cpt: number) {
+    this.secondes = ((cpt % 60) < 10) ? '0' + (cpt % 60) : (cpt % 60);
+  }
+  setMinutes(cpt: number) {
+    this.minutes = '0' + (cpt - (cpt % 60)) / 60;
+  }
+
+
 
   setRank(r: number) {
     this.player.setRank(r);
+  }
+  getRankPrefixe() {
+    return this.rankPrefixe[this.getRank()];
   }
   getRank() {
     return this.player.getRank();

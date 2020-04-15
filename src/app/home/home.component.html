@@ -16,9 +16,10 @@
                 <label class="label uk-align-center"> Saisir un code pour rejoindre une partie </label>
                 <div class="field has-addons has-addons-centered">
                   <div class="control has-icons-right">
-                    <input class="input" [class.is-success]="!token.invalid && token.touched"
+                    <input class="input" [class.is-success]="!token.invalid && token.touched" maxlength="10" 
+                    style="text-transform:uppercase" 
                       [class.is-danger]="token.invalid && token.touched" type="text" formControlName="token"
-                      placeholder="YXPTEDE">
+                      placeholder="E.g.: YXPTEDE">
                   </div>
                   <div class="control">
                     <button type="submit" class="button is-warning uk-align-center">

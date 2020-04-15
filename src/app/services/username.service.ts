@@ -7,23 +7,17 @@ import { throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class MyTokenService {
-
+export class UsernameService {
   public test: boolean;
 
-  //newTokenUrl = 'http://18.224.183.130:3000/newtoken';
-  newTokenUrl = ' http://localhost:3000/newtoken';
-  //checkTokenUrl = 'http://18.224.183.130:3000/checktoken';
-  checkTokenUrl = 'http://localhost:3000/checktoken';
+  // checkTokenUrl = 'http://18.224.183.130:3000/checkusername;
+  checkUsernameUrl = 'http://localhost:3000/checkusername';
   constructor(private theHttp: HttpClient) { }
 
-  createToken() {
-     return    this.theHttp.post<any>(this.newTokenUrl, null);
 
-  }
-  checkToken(token: string) {
+  checkUsername(username: string, token: string) {
 
-    return this.theHttp.post<any>(this.checkTokenUrl, { message: '' + token });
+    return this.theHttp.post<any>(this.checkUsernameUrl, { message: token + '-' + username});
 
   }
 
@@ -32,4 +26,3 @@ export class MyTokenService {
     return throwError(error);
   }
 }
-

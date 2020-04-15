@@ -1,24 +1,32 @@
-<div class="player uk-card uk-card-default" [class.uk-hinded]='isCurrent' >
+<div class="player uk-card uk-card-default" [class.uk-hinded]='isCurrent'>
 	<div class="uk-grid-small uk-flex-middle" uk-grid>
 		<div class="uk-width-auto ">
 			<div class="padding5">
-				<img class="uk-border-circle pokeImage" [class.hasPlayed] ="getHasPlayed()"  width="50" height="50" src="{{getPokemonImageSrc()}}">
+				<img class="uk-border-circle pokeImage" [class.hasPlayed]="getHasPlayed()" width="50" height="50"
+					src="{{getPokemonImageSrc()}}">
 				<p class="username">
-					<span class=" {{getPokemonName()}} uk-label ">{{getusername()}}</span>
+					<span (click)="stopCpt()" class=" {{getPokemonName()}} uk-label ">{{getusername()}}</span>
 				</p>
 			</div>
 		</div>
 		<div class="uk-width-expand padding5 ">
-			<div class="padding5 uk-text-left">
-
-				<h3 class="uk-text-small ranking">#{{getRank()}}</h3>
+			<div class="padding5 uk-text-left uk-flex uk-flex-column">
+				<div class="playerStat">
+					<span class="uk-text-small ranking">{{getRank()}}<span class="super">{{getRankPrefixe()}}</span></span>
+				</div>
+				<div class="playerStat">
 				<div class="picked-ball">
 					<img src="../../assets/image/pokemon/023-pokeballs.svg" width="20" height="20">
 					<span class="uk-text-small">: {{ getPickedBalls()}}</span>
 				</div>
-				
+				</div>
+				<div class="playerStat {{cptClass}}">
+				<span> {{minutes}} : {{secondes}} </span>
+				</div>
+
+
 			</div>
 		</div>
 	</div>
-	
+
 </div>

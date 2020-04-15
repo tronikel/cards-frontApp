@@ -7,6 +7,7 @@ declare var UIkit: any;
 
 import { GameService } from '../services/game.service';
 import { ChatService } from '../services/chat.service';
+import { UsernameService } from '../services/username.service';
 import allPokemons from '../../assets/json/pokemons.json';
 import { IPokemon } from '../interfaces/pokemon';
 import { Player } from '../models/player';
@@ -44,6 +45,7 @@ export class WaitingPlayersComponent implements OnInit {
     private gameService: GameService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private myusernameService: UsernameService,
     private router: Router,
     private chatService: ChatService) { }
 
@@ -56,39 +58,62 @@ export class WaitingPlayersComponent implements OnInit {
       let userType = null;
       userType = params['userType'];
       this.code = id;
-      this.currentPlayer = new Player('', '', userType === 'master');
+      this.currentPlayer = new Player('', '', userType === 'master', 0, 0);
       this.pokemonsList = allPokemons as IPokemon[];
       this.initselectPseudoForm();
       this.gameService.init(id, userType);
       console.log(this.gameService.getCurrentPlayer());
       this.chatService.initSocket();
       this.chatService.getNewsubConnections().subscribe((message) => {
-        console.log(message);
-        this.updatePlayers(message['content']);
+        if (!(typeof message['content'] === 'undefined')) {
+          this.updatePlayers(message['content']);
+        }
       });
       this.chatService.getPlayersUpdated().subscribe((message) => {
-        console.log('players update received');
-        console.log(message);
-        this.updatePlayers(message['content']);
+        if (!(typeof message['content'] === 'undefined')) {
+          console.log(message['content']);
+          if (Array.isArray(message['content'])) {
+            if (this.gameService.getCurrentPlayer().getPokemon() === 'inconnu') {
+              this.updatePlayers(message['content']);
+            } else {
+            //  UIkit.notification("<i class='uk-icon-close'></i> Profil mis à jour ", { status: 'success' });
+              UIkit.switcher("#wbul").show(2);
+              this.updatePlayers(message['content']);
+            }
+
+          } else {
+            if (message['content'].split('-')[0] === 'KO ') {
+              UIkit.notification("<i class='uk-icon-close'></i> Le speudo : " + message['content'].split('-')[1] + " est indisponible. Veuillez en choisir un autre ", { status: 'danger' });
+            } else {
+              if (message['content'].split('-')[0] === 'OK ') {
+            //    UIkit.notification("<i class='uk-icon-close'></i> Speudo : " + message['content'].split('-')[1] + " mis à jour. Veuillez en choisir un pokemon: ", { status: 'success' });
+                UIkit.switcher("#wbul").show(1);
+              }
+
+            }
+
+          }
+        }
       });
-      this.chatService.observePartyStart().subscribe((message) => {
-        this.updatePlayers(message['content']);
-      });
+
       this.chatService.observePartyStart().subscribe((message) => {
         console.log('Start party');
-        if (this.gameService.isReady) {
-          this.gameService.updateAll(message['content']).then(
-            (val) => {
-              console.log(' start party : content updated');
-              this.router.navigate(['../board'], { queryParams: { code: this.code } });
-              UIkit.notification("<i class='uk-icon-close'></i> La partie est lancée", { status: 'success' });
-            },
-            (err) => console.error(err)
-          );
+        if (!(typeof message['content'] === 'undefined')) {
 
-        } else {
-          UIkit.notification("<i class='uk-icon-close'></i> Trop tard! La partie commencera sans vous", { status: 'danger' });
-          this.router.navigate(['../home']);
+          if (this.gameService.isReady) {
+            this.gameService.updateAll(message['content']).then(
+              (val) => {
+                console.log(' start party : content updated');
+                this.router.navigate(['../board'], { queryParams: { code: this.code } });
+                UIkit.notification("<i class='uk-icon-close'></i> La partie est lancée", { status: 'success' });
+              },
+              (err) => console.error(err)
+            );
+
+          } else {
+            UIkit.notification("<i class='uk-icon-close'></i> Trop tard! La partie commencera sans vous", { status: 'danger' });
+            this.router.navigate(['../home']);
+          }
         }
       });
 
@@ -98,15 +123,14 @@ export class WaitingPlayersComponent implements OnInit {
         this.players = players;
         console.log("WaitingPlayers : players Update");
       });
-
-
-
   }
+
   initselectPseudoForm() {
     this.selectPseudoForm = this.formBuilder.group({
       pseudo: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
+
   getPokemonImage(name) {
     let result = null;
     this.pokemonsList.forEach(e => {
@@ -116,6 +140,7 @@ export class WaitingPlayersComponent implements OnInit {
     });
     return '../../assets/image/pokemon/' + result + '.svg';
   }
+
   selectPokemon(event, i, name) {
     console.log(i);
     console.log(name);
@@ -127,8 +152,8 @@ export class WaitingPlayersComponent implements OnInit {
       $('#pokemons').children().eq(i).find('span.uk-badge').removeClass('is-hidden');
 
     }
-
   }
+
   ismaster(): boolean {
     let result = false;
     if (this.gameService.getCurrentPlayer().getIsMainUser()) {
@@ -148,12 +173,53 @@ export class WaitingPlayersComponent implements OnInit {
     this.gameService.emitCurrentPlayer();
     this.chatService.addNewPlayer();
   }
+  sendPokemonAndUsernmaneChoice(pokemon, username) {
+    if (username != null) {
+      const temp = this.gameService.getCurrentPlayer().getUsername();
+      this.gameService.getPlayerByname(temp).setUsername(username);
+      this.currentPlayer.setUsername(username);
+      this.gameService.getCurrentPlayer().setUsername(username);
+    }
+    if (pokemon != null) {
+      console.log("pokemon : "+pokemon);
+      const temp = this.gameService.getCurrentPlayer().getUsername();
+      this.gameService.getPlayerByname(temp).setPokemon(pokemon);
+      this.gameService.getCurrentPlayer().setPokemon(pokemon);
+      this.currentPlayer.setPokemon(pokemon);
+    }
+    this.gameService.emitPlayers();
+    // this.gameService.gameReady();
+    this.gameService.emitCurrentPlayer();
+    this.chatService.addNewPlayer();
+  }
+  UpdateCurrentUserName() {
+    const psd = this.pseudo.value;
+    const pk = this.pokemon.value;
+    this.myusernameService.checkUsername(this.code, psd)
+      .subscribe(
+        response => {
+          if (response.message.split('-').lenght > 1) {
+            if (response.message.split('-')[0] === 'Error username ') {
+              UIkit.notification("<i class='uk-icon-close'></i> Speudo : " + response.message.split('-')('-')[1] + "indisponible. Veuillez en choisir un autre Inconnu : ", { status: 'danger' });
+            } else {
+              if (psd === 'inconnu') {
+                this.gameService.getCurrentPlayer().setUsername(psd);
+              } else {
+                this.gameService.getCurrentPlayer().setUsername(psd);
+              }
+            }
+          } else {
+            console.log('error', 'reponse check username innatendu');
+          }
 
-  UpdateCurrentUserName(pseudo) {
-    this.currentPlayer.setUsername(pseudo);
-    const temp = this.gameService.getCurrentPlayer().getUsername();
-    this.gameService.getCurrentPlayer().setUsername(pseudo);
-    this.gameService.getPlayerByname(temp).setUsername(pseudo);
+          console.log('error', 'web service check username inaccessible');
+        }
+        ,
+        error => console.error('Error!', error)
+      );
+    // const temp = this.gameService.getCurrentPlayer().getUsername();
+    // this.gameService.getCurrentPlayer().setUsername(pseudo);
+    //  this.gameService.getPlayerByname(temp).setUsername(pseudo);
   }
   get pseudo() {
     return this.selectPseudoForm.get('pseudo');
@@ -173,6 +239,34 @@ export class WaitingPlayersComponent implements OnInit {
     return result;
   }
 
+  outFunc() {
+    const codeBtn = document.getElementById('code');
+    codeBtn.setAttribute('uk-tooltip', 'Copier le code');
+  }
+
+  copierCode() {
+    if (window.getSelection) {
+      if (window.getSelection().empty) { // Chrome
+        window.getSelection().empty();
+        const range = document.createRange();
+        range.selectNode(document.getElementById('select_txt'));
+        window.getSelection().addRange(range);
+        document.execCommand("copy");
+        window.getSelection().empty();
+        console.log("chrome");
+        UIkit.notification("<i class='uk-icon-close'></i> le code :  " + this.code + " a été copié dans le presse papier", { status: 'success' });
+      } else if (window.getSelection().removeAllRanges) { // Firefox
+        window.getSelection().removeAllRanges();
+        const range = document.createRange();
+        range.selectNode(document.getElementById('select_txt'));
+        window.getSelection().addRange(range);
+        document.execCommand("copy");
+        window.getSelection().removeAllRanges();
+        console.log("chrome");
+      }
+    }
+  }
+
   startParty() {
     console.log(this.gameService.getPlayers());
     this.gameService.gameStarted();
@@ -189,38 +283,43 @@ export class WaitingPlayersComponent implements OnInit {
 
   updatePlayers(message) {
     const newPlayers: Player[] = [];
-
     message.forEach((e) => {
-
-      newPlayers.push(new Player(e.username, e.pokemon, e.isMainUser));
-
+      newPlayers.push(new Player(e.username, e.pokemon, e.isMainUser, e.cpt, e.id));
     });
-
     this.gameService.setPlayers(newPlayers);
     console.log(this.gameService.getPlayers());
     console.log("players listed");
     $('#connectedUsers').empty();
     this.players = [];
+    this.pokemonsList.forEach((b) => {
+     {
+        b.selected = false;
+        b.master = "inconnu";
+      }
+    });
     this.gameService.getPlayers().forEach((e) => {
       ///  console.log(e.getPokemon());
       this.players.push(e);
       this.pokemonsList.forEach((b) => {
         if (e.getPokemon() === b.name) {
-            b.selected = true;
-            b.master = e.getUsername();
+          b.selected = true;
+          b.master = e.getUsername();
         }
       });
-
-      /*$('#connectedUsers').append('<li> <div class="uk-grid-small uk-flex-middle" uk-grid> '
-        + '<div class="uk-width-auto"> <img class="uk-align-center uk-align-middle@m  uk-border-circle"  src="'
-        + '../../assets/image/pokemon/' + this.getPokemonImage(e.getPokemon())
-        + '.svg" width="40" height="40" alt="Example image"> </div>'
-        + '<div class="uk-width-expand uk-text-left "><span class="uk-label uk-label-primary">'
-        + e.getUsername() + '</span></div> ' + this.getmasterlabel(e.getIsMainUser()) + '</div></li>');
-      $('#pokemons div.' + e.getPokemon()).removeClass('available');
-      $('#pokemons div.' + e.getPokemon()).addClass('unavailable');
-      $('#pokemons div.' + e.getPokemon() + ' small.help')
-        .html('<small class="help uk-text-bold"> Selectionné par ' + e.getUsername() + '</small></p>');*/
     });
   }
+
+  username() {
+    // console.log(this.pseudo());
+    const psd = this.pseudo.value as string;
+
+    this.myusernameService.checkUsername(this.code, psd)
+      .subscribe(
+        response => console.log(response),
+        error => console.error('Error!', error)
+      );
+    console.log('New Join');
+
+  }
+
 }

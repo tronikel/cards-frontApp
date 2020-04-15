@@ -66,9 +66,13 @@ svg{
 span.uk-icon svg path{
     fill: green;
 }
+::placeholder {
+    color: #a0aec0;
+      opacity: 1; /* Firefox */
+}
 .uk-tab > * > a{
-    pointer-events: none !important;
-    cursor: default !important;
+ /* pointer-events: none !important;
+    cursor: default !important; */ 
 }
 #connectedUsers span.Pikachu.uk-label{
     background-color:#ffd900        ;
@@ -109,4 +113,21 @@ span.uk-icon svg path{
 #connectedUsers span.Rattata.uk-label{
     background-color:#a962e8        ;
     opacity:1;
+}
+#select_txt {
+    color :white;
+    font-size: 8px;
+}
+#wbul li a span.uk-badge{
+min-width: 18px;
+height: 18px;
+font-size :0.65rem;
+background: rgb(167, 167, 167);
+}
+#wbul li.uk-active a span.uk-badge{
+    background: #1e87f0;
+}
+
+#wbul li a{
+    font-size :0.65rem;   
 }

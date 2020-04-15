@@ -4,16 +4,31 @@
       <div class="uk-flex uk-flex-center">
         <div class=" uk-card uk-card-default uk-card-body uk-width-1-2@m">
 
-          <h2 class="has-text-centered"> Code de la partie : {{code}} </h2>
-          <ul class="uk-tab uk-child-width-expand" uk-switcher>
-            <li><a href="">Choisir un pseudo</a></li>
-            <li><a href="">Choisir un pokemon</a></li>
-            <li><a href="">Lancer la partie</a></li>
+          <h2 class="has-text-centered"> Code de la partie :
+            <button id="code" (click)='copierCode()' uk-tooltip="Copier le code" class="button is-active "
+              (mouseout)="outFunc()">
+              <span class="icon">
+                <i class="fa fa-copy"></i>
+              </span>
+              <span>{{code}}</span>
+            </button>
+            <span id="select_txt">{{code}}</span>
+          </h2>
+          <p class="has-text-centered infos uk-text-muted uk-text-small">N'oubliez pas de partager le code à ceux qui
+            veulent rejoindre la partie</p>
+
+          <ul id="wbul" class="uk-tab uk-child-width-expand" uk-switcher>
+            <li>
+              <a href="">
+                <span class="uk-badge">1</span> Choisir un pseudo</a>
+            </li>
+            <li><a href=""> <span class="uk-badge">2</span> Choisir un pokemon</a></li>
+            <li><a href=""> <span class="uk-badge">3</span> Lancer la partie</a></li>
           </ul>
 
           <ul class="uk-switcher uk-margin">
             <li class=" box-h100 has-text-centered">
-              <form [formGroup]="selectPseudoForm" >
+              <form [formGroup]="selectPseudoForm">
                 <div class="field">
                   <label class="label">Entrez un pseudo</label>
                   <div class="field has-addons has-addons-centered ">
@@ -22,13 +37,13 @@
                       <span class="icon is-small is-left">
                         <i class="fa fa-user"></i>
                       </span>
-                      <input class="input" [class.is-success]="!pseudo.invalid && pseudo.touched"
+                      <input class="input" [class.is-success]="!pseudo.invalid && pseudo.touched" maxlength="10"
                         [class.is-danger]="pseudo.invalid && pseudo.touched" type="text" formControlName="pseudo"
-                        placeholder="Sacha">
+                        placeholder="E.g.: Sacha">
                     </div>
                     <div class="control">
-                      <button uk-switcher-item="next" class="button is-primary"
-                        (click)="UpdateCurrentUserName(pseudo.value)" [attr.disabled]="pseudo.invalid? '': null">
+                      <button class="button is-primary" (click)="sendPokemonAndUsernmaneChoice(null,pseudo.value)"
+                        [attr.disabled]="pseudo.invalid? '': null">
                         <span uk-icon="icon: arrow-right"></span>
                       </button>
 
@@ -48,8 +63,9 @@
 
               <label class="label"> Selection un pokemon </label>
               <div id="pokemons" class=" uk-flex uk-margin-auto  uk-flex-between uk-text-center" uk-grid>
-                <div class="uk-card uk-card-default uk-card-small uk-card-body  {{obj.name}} " 
-                  *ngFor="let obj of pokemonsList;let i = index" [class.available]="!obj.selected" [class.unavailable]="obj.selected" (click)="selectPokemon( $event, i ,obj.name)">
+                <div class="uk-card uk-card-default uk-card-small uk-card-body  {{obj.name}} "
+                  *ngFor="let obj of pokemonsList;let i = index" [class.available]="!obj.selected"
+                  [class.unavailable]="obj.selected" (click)="selectPokemon( $event, i ,obj.name)">
                   <div class="uk-text-center">
                     <img class="uk-border-circle" width="60" height="60"
                       src="../../assets/image/pokemon/{{obj.image}}.svg">
@@ -59,14 +75,14 @@
 
                     <p *ngIf="obj.master==='inconnu'; else elseBlock">
                       <small class="help">Ce pokemon est libre </small>
-                  
+
                     </p>
                     <ng-template #elseBlock>
                       <p> <small class="help"> Selectionner par {{obj.master}}</small></p>
                     </ng-template>
 
-                    <span (click)="sendPokemonChoice( $event, i ,obj.name)" class="uk-badge is-hidden"> <a href="#"
-                        class="uk-link-reset " uk-switcher-item="next"><span uk-icon="icon: arrow-right"></span></a>
+                    <span (click)="sendPokemonAndUsernmaneChoice(obj.name,null)" class="uk-badge is-hidden"> <span
+                        uk-icon="icon: arrow-right"></span>
                     </span>
                   </div>
                 </div>
@@ -74,32 +90,66 @@
             </li>
             <li class="box-h100 has-text-centered">
               <label class="label"> Liste des joueurs connectés</label>
-              <ul id="connectedUsers" class="uk-list uk-list-striped"  *ngFor="let player of players">
-                <li> <div class="uk-grid-small uk-flex-middle" uk-grid> 
-                  <div class="uk-width-auto"> <img class="uk-align-center uk-align-middle@m  uk-border-circle"  [src]='getPokemonImage(player.getPokemon())' width="40" height="40" alt="{{player.getPokemon()}}">
-                   </div>
-                  <div class="uk-width-expand uk-text-left "><span class="uk-label uk-label-primary {{player.getPokemon()}}"> {{player.getUsername()}}</span></div> 
-                  <div *ngIf="player.getIsMainUser()"> <span class="uk-text-right"  uk-icon="star"></span> </div>
+              <ul id="connectedUsers" class="uk-list uk-list-striped" *ngFor="let player of players">
+                <li>
+                  <div class="uk-grid-small uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto"> <img class="uk-align-center uk-align-middle@m  uk-border-circle"
+                        [src]='getPokemonImage(player.getPokemon())' width="40" height="40"
+                        alt="{{player.getPokemon()}}">
+                    </div>
+                    <div class="uk-width-expand uk-text-left "><span
+                        class="uk-label uk-label-primary {{player.getPokemon()}}"> {{player.getUsername()}}</span></div>
+                    <div *ngIf="player.getIsMainUser()"> <span uk-tooltip="Administrateur de la partie"
+                        uk-icon="icon: bolt"></span></div>
+                    <div *ngIf="player.getUsername()===currentPlayer.getUsername()"> <strong>Moi</strong> </div>
                   </div>
                 </li>
 
 
               </ul>
               <div *ngIf="ismaster()">
-                <p class="uk-margin-small-top">
-                  <button uk-switcher-item="next" (click)="startParty()" class="button is-success">
-                    Lancer la partie
-                  </button>
-                </p>
+                <div *ngIf="currentPlayer.getPokemon() === ''">
+                  <p>
+                    <small class="help uk-text-warning">
+                      Veuillez selectionner un Pseudo et un pokemon puis partager le code la partie.
+                    </small>
+                  </p>
+                </div>
+                <div *ngIf="!(currentPlayer.getPokemon() === '')">
+                  <div *ngIf="(players.length < 2)">
+                    <p>
+                      <small class="help uk-text-warning">
+                        Veuillez partager le code la partie et attendre que de nouveaux joueurs se connectent.
+                      </small>
+                    </p>
+                  </div>
+                  <div *ngIf="!(players.length < 2)">
+                    <p class="uk-margin-small-top">
+                      <button uk-switcher-item="next" (click)="startParty()" class="button is-success">
+                        Lancer la partie
+                      </button>
+                    </p>
+                  </div>
+                </div>
+
               </div>
               <div *ngIf="!ismaster()">
-                <p>
-                  <small class="help uk-text-warning">
-                    Veuillez attendre que l'administrateur lance la partie
-                  </small>
-                </p>
+                <div *ngIf="currentPlayer.getPokemon() === ''">
+                  <p>
+                    <small class="help uk-text-warning">
+                      Veuillez selectionner un Pseudo et un pokemon
+                    </small>
+                  </p>
+                </div>
+                <div *ngIf="!(currentPlayer.getPokemon() === '')">
+                  <p>
+                    <small class="help uk-text-warning">
+                      Veuillez attendre que l'administrateur lance la partie
+                    </small>
+                  </p>
+                </div>
               </div>
-              
+
 
 
             </li>

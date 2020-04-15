@@ -7,27 +7,46 @@ export class Player {
     private pickedBalls: number;
     private hasPlayed: boolean;
     private hand: number[];
+    private cpt: number;
+    private id: number;
 
-    constructor(username, pokemon, isMainUser) {
+    constructor(username, pokemon, isMainUser, cpt, id) {
         this.username = username;
         this.pokemon = pokemon;
         this.isMainUser = isMainUser;
         this.hasPlayed = false;
-        this.rank = 0;
+        this.rank = 1;
         this.pickedBalls = 0;
         this.hand = [];
+        this.cpt = cpt;
+        this.id = id;
     }
 
     create(p: Player) {
-        const r = new Player(p.username, p.pokemon, p.isMainUser);
+        const r = new Player(p.username, p.pokemon, p.isMainUser, p.cpt, p.id);
         r.hasPlayed = p.hasPlayed;
         r.rank = p.rank;
         r.pickedBalls = p.pickedBalls;
-        r.hand = r.hand;
+        r.hand = p.hand;
+        r.cpt = p.cpt;
+        r.id = p.id;
         return r;
     }
     addBalls(t) {
         this.pickedBalls = this.pickedBalls + t;
+    }
+
+    getid() {
+        return this.id;
+    }
+    setId(id: number) {
+        this.id = id;
+    }
+    getCpt() {
+        return this.cpt;
+    }
+    setCpt(cpt: number) {
+        this.cpt = cpt;
     }
     getUsername() {
         return this.username;

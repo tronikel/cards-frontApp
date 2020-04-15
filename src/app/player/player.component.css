@@ -1,5 +1,6 @@
 .player {
-	padding: 6px 0px 0px 0px;
+    padding: 6px 0px 0px 0px;
+    width: 190px;
 }
 .padding5{
 	padding: 3px 6px 3px 6px ;
@@ -14,12 +15,12 @@
 	
 }
 .pokeImage {
-	box-shadow: 0px 0px 8px 4px rgba(255, 0, 0, 0.2);
+	box-shadow: 0px 0px 8px 4px rgba(255, 0, 0, 0.8);
 	padding: 4px;
 	text-align: center;
 }
 .hasPlayed{
-box-shadow: 0px 0px 8px 4px rgba(0, 255, 0, 0.2);
+box-shadow: 0px 0px 8px 4px rgba(0, 255, 0, 0.8);
 }
 p.username{
 	margin: 8px 0px;
@@ -68,3 +69,54 @@ span.Rattata.uk-label{
     background-color:#a962e8        ;
     opacity:1;
 }
+.super {
+    font-variant-position: super;
+    font-size: 12px;
+  }
+.uk-countdown-number{
+    font-size: 16px;
+    line-height: normal;
+  }
+
+.uk-countdown-container{
+ 
+      padding: 2px 0px 0px;
+      margin: 0;
+  }
+.uk-countdown-container > div{
+      padding: 3px 0px;
+  }
+.uk-countdown-container > div.uk-countdown-separator{
+    font-size: 16px;
+    margin-bottom: 0px; 
+    padding:  0 3px;
+  }
+.playerStat{    
+    border-radius: 2px;
+    height : 30px;
+    margin : 2px 0px;
+    padding: 0px 4px;
+    text-align: center;
+  }
+
+  .playerStat.uk-text-danger >span{
+    padding: 3px;
+    border-radius: 5px;
+    animation:danger 1s infinite;
+  }
+  @keyframes danger {
+    0% {box-shadow: inset 0px 0px 4px 3px rgba(255,23,2,0.8);}
+    50% {box-shadow:inset  0px 0px 4px 3px rgba(255,23,2,0.2);}
+    100% {box-shadow:inset  0px 0px 4px 3px rgba(255,23,2,0.8);}
+  }
+  .playerStat.uk-text-warning >span{
+    padding: 3px;
+    border-radius: 5px;
+    animation:warning 3s infinite;
+  }
+
+  @keyframes warning {
+    0% {box-shadow:inset  0px 0px 4px 3px rgba(255,179,2,0.8);}
+    50% {box-shadow:inset  0px 0px 4px 3px rgba(255,179,2,0.2);}
+    100% {box-shadow:inset  0px 0px 4px 3px rgba(255,179,2,0.8);}
+  }

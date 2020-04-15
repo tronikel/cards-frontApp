@@ -4,8 +4,11 @@ export class Card {
     color: string;
 
 
-    constructor( n: number) {
-            this.number = n;
+    constructor(n: number) {
+        this.number = n;
+        if (n === 0) {
+            this.ball = 0;
+        } else {
             if ((n % 11) === 0) {
                 this.ball = 5;
             } else {
@@ -21,25 +24,26 @@ export class Card {
             }
 
         }
-        create(c: Card){
-            return new Card( c.number);
-        }
-        getNumber() {
-            return this.number;
-        }
-        setNumber(n: number) {
-            this.number = this.number;
-        }
-        getBall() {
-            return this.ball;
-        }
-        setBall(b: number) {
-            this.ball = b;
-        }
-        setColor(c: string) {
-            this.color = c;
-        }
-        getColor() {
-            return this.color;
-        }
     }
+    create(c: Card) {
+        return new Card(c.number);
+    }
+    getNumber() {
+        return this.number;
+    }
+    setNumber(n: number) {
+        this.number = this.number;
+    }
+    getBall() {
+        return this.ball;
+    }
+    setBall(b: number) {
+        this.ball = b;
+    }
+    setColor(c: string) {
+        this.color = c;
+    }
+    getColor() {
+        return this.color;
+    }
+}

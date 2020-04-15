@@ -1,12 +1,13 @@
 <section class="hero home-bg is-fullheight-with-navbar">
-	<div id="players-nav ">
+	<div id="players_nav">
 
-		<div class="borderRed bgr1 -grid-collapse uk-child-width-expand@s uk-text-center" uk-grid>
+		<div id="sub_nav" class="shown borderRed bgr1 -grid-collapse uk-child-width-expand@s uk-text-center" uk-grid>
 			<app-player *ngFor="let player of players" [class.uk-hidden]="isCurrent(player)"
 				[isCurrent]="isCurrent(player)" [player]="player"></app-player>
 		</div>
-
+		<div id="players_nav_toggle"><span id="myarrow"uk-icon="icon:  chevron-up"></span></div>
 	</div>
+	
 	<div id="card-board" uk-grid>
 
 		<div class="uk-width-expand">
