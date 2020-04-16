@@ -245,7 +245,7 @@ export class GameService {
   }
 
   gameStarted() {
-    this.dealcards();
+  //  this.dealcards();
     this.status = this.STATUS.STARTED;
   }
   dealcards() {

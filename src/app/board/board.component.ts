@@ -42,6 +42,7 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.players = this.gameService.getPlayers();
     this.currentPlayer = this.gameService.getCurrentPlayer();
     this.board = this.gameService.getBoard();
+    this.dealcards();
     this.updateCurrentPlayerCards();
     this.notifSubcription = this.gameService.notifSubject.subscribe(
       (notif) => {
