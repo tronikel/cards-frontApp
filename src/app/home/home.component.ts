@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit {
       if (result.split('-')[0] === 'Error token ') {
         UIkit.notification("<i class='uk-icon-close'></i> Code Inconnu : " + result.split('-')[1], { status: 'danger' });
       } else {
-        UIkit.notification("<i class='uk-icon-check'></i> Code accepté : " + result.split('-')[1], { status: 'success' });
+      //  UIkit.notification("<i class='uk-icon-check'></i> Code accepté : " + result.split('-')[1], { status: 'success' });
 
         this.router.navigate(['../waitingPlayers'], { queryParams: { code: result.split('-')[1] , userType: type }});
        // this.router.navigate(['waitingPlayers']);

@@ -245,7 +245,19 @@ export class GameService {
   }
 
   gameStarted() {
+    this.dealcards();
     this.status = this.STATUS.STARTED;
+  }
+  dealcards() {
+    if (Array.isArray(this.players)) {
+      if (this.players.length > 0) {
+        this.players.forEach(player => {
+          for (let index = 0; index < 10; index++) {
+            player.addcardtohand(this.board.pickRandomCard());
+          }
+        });
+      }
+    }
   }
 
   isWaiting(status?) {
