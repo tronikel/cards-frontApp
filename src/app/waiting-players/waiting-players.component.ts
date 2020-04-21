@@ -49,8 +49,8 @@ export class WaitingPlayersComponent implements OnInit {
     private myusernameService: UsernameService,
     private router: Router,
     private chatService: ChatService) {
-      this.usernameUnavailable = false;
-    }
+    this.usernameUnavailable = false;
+  }
 
 
   ngOnInit() {
@@ -77,13 +77,13 @@ export class WaitingPlayersComponent implements OnInit {
           console.log(message['content']);
           if (Array.isArray(message['content'])) {
             if (this.gameService.getCurrentPlayer().getPokemon() === 'inconnu') {
-             // this.updatePlayers(message['content']);
+              // this.updatePlayers(message['content']);
             } else {
-            //  UIkit.notification("<i class='uk-icon-close'></i> Profil mis à jour ", { status: 'success' });
-            if (message['to'].id === this.currentPlayer.getid()){
-              UIkit.switcher("#wbul").show(2);
-            }
-           
+              //  UIkit.notification("<i class='uk-icon-close'></i> Profil mis à jour ", { status: 'success' });
+              if (message['to'].id === this.currentPlayer.getid()) {
+                UIkit.switcher("#wbul").show(2);
+              }
+
               this.updatePlayers(message['content']);
             }
 
@@ -94,10 +94,10 @@ export class WaitingPlayersComponent implements OnInit {
             } else {
               if (message['content'].split('-')[0] === 'OK ') {
                 this.usernameUnavailable = false;
-            //    UIkit.notification("<i class='uk-icon-close'></i> Speudo : " + message['content'].split('-')[1] + " mis à jour. Veuillez en choisir un pokemon: ", { status: 'success' });
-            if (message['to'].id === this.currentPlayer.getid()){
-              UIkit.switcher("#wbul").show(1);
-            }
+                //    UIkit.notification("<i class='uk-icon-close'></i> Speudo : " + message['content'].split('-')[1] + " mis à jour. Veuillez en choisir un pokemon: ", { status: 'success' });
+                if (message['to'].id === this.currentPlayer.getid()) {
+                  UIkit.switcher("#wbul").show(1);
+                }
               }
 
             }
@@ -191,7 +191,7 @@ export class WaitingPlayersComponent implements OnInit {
       this.gameService.getCurrentPlayer().setUsername(username);
     }
     if (pokemon != null) {
-      console.log("pokemon : "+pokemon);
+      console.log("pokemon : " + pokemon);
       const temp = this.gameService.getCurrentPlayer().getUsername();
       this.gameService.getPlayerByname(temp).setPokemon(pokemon);
       this.gameService.getCurrentPlayer().setPokemon(pokemon);
@@ -202,7 +202,7 @@ export class WaitingPlayersComponent implements OnInit {
     this.gameService.emitCurrentPlayer();
     this.chatService.addNewPlayer();
   }
- 
+
   get pseudo() {
     return this.selectPseudoForm.get('pseudo');
   }
@@ -274,7 +274,7 @@ export class WaitingPlayersComponent implements OnInit {
     $('#connectedUsers').empty();
     this.players = [];
     this.pokemonsList.forEach((b) => {
-     {
+      {
         b.selected = false;
         b.master = "inconnu";
       }
