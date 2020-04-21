@@ -125,11 +125,19 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     $("btn-replay").click(function() {
-      
+      if (this.gameService.getCurrentPlayer.getIsMainUser()) {
       this.gameService.setPlayers([]);
-      this.gameService.setCurrentPlayer(new Player(null, null, null, null, null));
+      this.gameService.setCurrentPlayer(new Player(null, null, null, true, null));
       this.gameService.setBoard(new Board());
+
       this.router.navigate(['../waitingPlayers?code=' + this.gameService. getCode() + '&userType=master']);
+      } else {
+        this.gameService.setPlayers([]);
+        this.gameService.setCurrentPlayer(new Player(null, null, null, false, null));
+        this.gameService.setBoard(new Board());
+        this.router.navigate(['../waitingPlayers?code=' + this.gameService. getCode()]);
+
+      }
 
 
     });
