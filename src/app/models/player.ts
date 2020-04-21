@@ -97,15 +97,15 @@ export class Player {
         this.hand.push(card);
     }
     getRankVisual() {
-        let r = '<span>' + this.getRank + '</span>';
+        let r = '' + this.getRank ;
         if (this.rank === 1) {
-            r = '<img scr="../../assets/image/pokemon/m1.png">';
+            r = '../../assets/image/pokemon/m1.png';
         }
         if (this.rank === 2) {
-            r = '<img scr="../../assets/image/pokemon/m2.png">';
+            r = '../../assets/image/pokemon/m2.png';
         }
         if (this.rank === 3) {
-            r = '<img scr="../../assets/image/pokemon/m3.png">';
+            r = '../../assets/image/pokemon/m3.png';
         }
         return r;
     }

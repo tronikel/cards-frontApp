@@ -5,9 +5,9 @@
 			<app-player *ngFor="let player of players" [class.uk-hidden]="isCurrent(player)"
 				[isCurrent]="isCurrent(player)" [player]="player"></app-player>
 		</div>
-		<div id="players_nav_toggle"><span id="myarrow"uk-icon="icon:  chevron-up"></span></div>
+		<div id="players_nav_toggle"><span id="myarrow" uk-icon="icon:  chevron-up"></span></div>
 	</div>
-	
+
 	<div id="card-board" uk-grid>
 
 		<div class="uk-width-expand">
@@ -15,7 +15,8 @@
 		</div>
 		<div class=" ">
 			<div class="row uk-flex" *ngFor="let row of board.table">
-				<app-card *ngFor="let card of row" [color]="card.color" [number]="card.number" isBoard="true"></app-card>
+				<app-card *ngFor="let card of row" [color]="card.color" [number]="card.number" isBoard="true">
+				</app-card>
 			</div>
 		</div>
 		<div class="uk-width-expand">
@@ -27,10 +28,10 @@
 
 	<div id="mygame">
 		<div uk-grid>
-			<div >
-				<app-player  [player]="currentPlayer"></app-player>
+			<div>
+				<app-player [player]="currentPlayer"></app-player>
 			</div>
-			<div >
+			<div>
 				<app-my-hand [hasPlayed]="currentPlayer.getHasPlayed()" [username]="currentPlayer.getUsername() "
 					[myHand]="currentPlayer.getHand()"></app-my-hand>
 			</div>
@@ -40,39 +41,48 @@
 	<div id="gameresult" class="modal">
 		<div class="modal-background"></div>
 		<div class="modal-card">
-		  <header class="modal-card-head">
-			<p class="modal-card-title">Partie terminée</p>
-			<button class="delete" aria-label="close"></button>
-		  </header>
-		  <section class="modal-card-body">
-			<table class="table">
-				<thead>
-				  <tr>
-					<th>Rang</th>
-					<th>pseudo</th>
-					<th>pokemon</th>
-					<th>Balles</th>
-				  </tr>
-				</thead>
-				<tr *ngFor = "let player of players">
-					<td class="rankIcon">
-					  {{player.getRankVisual()}}
-					</td>
-					<td>
-						{{player.getUsername()}}
-					</td>
-					<td class="pokemonIcon">
-						{{player.getPokemon()}}
-					</td>
-					{{player.getPickedBalls()}}
-				  </tr>
-			</table>
-		  </section>
-		  <footer class="modal-card-foot">
-			<button id="btn-to-home" class="button is-success">revenir à l'accueil</button>
-			<button id="btn-replay"class="button">Rejouer cette partie</button>
-		  </footer>
+			<header class="modal-card-head">
+				<p class="modal-card-title">Partie terminée</p>
+				<button class="delete" aria-label="close"></button>
+			</header>
+			<section class="modal-card-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Rang</th>
+							<th>pseudo</th>
+							<th>pokemon</th>
+							<th>Balles</th>
+						</tr>
+					</thead>
+					<tr *ngFor="let player of players">
+
+						<td *ngIf="player.getRank() > 3; else elseblock" class="rankIcon">
+							<span>{{player.getRank()}}</span>
+						</td>
+						<ng-template #elseblock>
+							<td class="rankIcon">
+								<img src ="{{player.getRankVisual()}}">
+							</td>
+						</ng-template>
+						<td>
+							{{player.getUsername()}}
+						</td>
+						<td class="pokemonIcon">
+							{{player.getPokemon()}}
+						</td>
+						<td class="pickedballs">
+							{{player.getPickedBalls()}}
+						</td>
+
+					</tr>
+				</table>
+			</section>
+			<footer class="modal-card-foot">
+				<button id="btn-to-home" class="button is-success">revenir à l'accueil</button>
+				<button id="btn-replay" class="button">Rejouer cette partie</button>
+			</footer>
 		</div>
-	  </div>
+	</div>
 
 </section>

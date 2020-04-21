@@ -23,7 +23,8 @@
 box-shadow: 0px 0px 8px 4px rgba(0, 255, 0, 0.8);
 }
 p.username{
-	margin: 8px 0px;
+  margin: 8px 0px;
+  font-size: 0.8rem;
 }
 .ranking{
 	font: bold 20px Georgia, serif;
