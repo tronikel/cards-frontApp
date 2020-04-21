@@ -59,7 +59,7 @@ export class GameService {
         this.emitCpt();
         this.emitRdPlay();
         clearInterval(this.cptDecrementer);
-        this.decrementCpt();
+      //  this.decrementCpt();
       }
     }, 1000);
   }
@@ -457,7 +457,7 @@ export class GameService {
       });
 
     }
-    this.resetCpt();
+    this.decrementCpt();
   }
 
   getPlayerByname(name: string): Player {

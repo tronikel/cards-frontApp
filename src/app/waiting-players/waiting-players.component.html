@@ -95,7 +95,7 @@
               <label class="label"> Liste des joueurs connectés</label>
               <ul id="connectedUsers" class="uk-list uk-list-striped" *ngFor="let player of players">
                 <li>
-                  <div class="uk-grid-small uk-flex-middle" uk-grid>
+                  <div *ngIf="(player.getPokemon() !== 'inconnu')&&(player.getPokemon() !== '')&&(player.getUsername() !== 'inconnu')"class="uk-grid-small uk-flex-middle" uk-grid>
                     <div class="uk-width-auto"> <img class="uk-align-center uk-align-middle@m  uk-border-circle"
                         [src]='getPokemonImage(player.getPokemon())' width="40" height="40"
                         alt="{{player.getPokemon()}}">
@@ -103,7 +103,7 @@
                     <div class="uk-width-expand uk-text-left "><span
                         class="uk-label uk-label-primary {{player.getPokemon()}}"> {{player.getUsername()}}</span></div>
                     <div *ngIf="player.getIsMainUser()"> <span uk-tooltip="Administrateur de la partie"
-                       class="mastericon"> <img src="../../assets/image/pokemon/045-crown.svg"></span></div>
+                       class="mastericon"> <img style="height: 35px;" src="../../assets/image/pokemon/045-crown.svg"></span></div>
                     <div *ngIf="player.getUsername()===currentPlayer.getUsername()"> <strong>Moi</strong> </div>
                   </div>
                 </li>

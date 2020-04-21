@@ -77,10 +77,11 @@ export class WaitingPlayersComponent implements OnInit {
           console.log(message['content']);
           if (Array.isArray(message['content'])) {
             if (this.gameService.getCurrentPlayer().getPokemon() === 'inconnu') {
-              // this.updatePlayers(message['content']);
+         
+              this.updatePlayers(message['content']);
             } else {
               //  UIkit.notification("<i class='uk-icon-close'></i> Profil mis à jour ", { status: 'success' });
-              if (message['to'].id === this.currentPlayer.getid()) {
+              if (message['to'].username === this.currentPlayer.getUsername()) {
                 UIkit.switcher("#wbul").show(2);
               }
 
@@ -89,13 +90,14 @@ export class WaitingPlayersComponent implements OnInit {
 
           } else {
             if (message['content'].split('-')[0] === 'KO ') {
-              UIkit.notification("<i class='uk-icon-close'></i> Le speudo : " + message['content'].split('-')[1] + " est indisponible. Veuillez en choisir un autre ", { status: 'danger' });
+            //  UIkit.notification("<i class='uk-icon-close'></i> Le speudo : " + message['content'].split('-')[1] + " est indisponible. Veuillez en choisir un autre ", { status: 'danger' });
               this.usernameUnavailable = true;
             } else {
               if (message['content'].split('-')[0] === 'OK ') {
                 this.usernameUnavailable = false;
+                console.log (message['to'].username + " vs " + this.currentPlayer.getUsername());
                 //    UIkit.notification("<i class='uk-icon-close'></i> Speudo : " + message['content'].split('-')[1] + " mis à jour. Veuillez en choisir un pokemon: ", { status: 'success' });
-                if (message['to'].id === this.currentPlayer.getid()) {
+                if (message['to'].username === this.currentPlayer.getUsername()) {
                   UIkit.switcher("#wbul").show(1);
                 }
               }

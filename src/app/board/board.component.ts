@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
 import { Board } from '../models/board';
 import { Card } from '../models/card';
+import allPokemons from '../../assets/json/pokemons.json';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -38,9 +39,15 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private chatService: ChatService) {
     this.board = new Board();
+    this.pokemonsList = allPokemons as IPokemon[];
+    
   }
 
   ngOnInit() {
+    if ( this.gameService.getStatus() !== '2') {
+      this.router.navigate(['../home']);
+     }
+    this.pokemonsList = allPokemons as IPokemon[];
     this.players = this.gameService.getPlayers();
     this.currentPlayer = this.gameService.getCurrentPlayer();
     this.board = this.gameService.getBoard();
@@ -112,6 +119,7 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   updateranking() {
+   
     this.sortPlayersbyRank();
     $('#gameresult').addClass('is-active');
   }
