@@ -4,22 +4,22 @@ box-shadow: 0 4px 4px -2px rgba(0,0,0,.75);
 .home-bg{
 background-image: url(../assets/image/home-bg.png);
 }
-.uk-notification{
+#6cards .uk-notification{
 border-radius: 4px;
 border-style: solid;
 border-width: 0 0 0 4px;
 }
-.uk-notification-message-success {
+#6cards .uk-notification-message-success {
 border-color:#48c774 ;
 }
-.uk-notification-message-danger {
+#6cards .uk-notification-message-danger {
 border-color:#f14668 ;
 }
-.uk-notification-message-warning {
+#6cards .uk-notification-message-warning {
 border-color:#ffdd57 ;
 }
 
-.uk-notification-message{
+#6cards .uk-notification-message{
 font-size: .8rem;
 color: darkgrey !important;
 }
