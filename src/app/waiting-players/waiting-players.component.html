@@ -37,7 +37,7 @@
                       <span class="icon is-small is-left">
                         <i class="fa fa-user"></i>
                       </span>
-                      <input class="input" [class.is-success]="!pseudo.invalid && pseudo.touched" maxlength="10"
+                      <input class="input" [class.is-success]="!pseudo.invalid && pseudo.touched" maxlength="10" minlength="3"
                         [class.is-danger]="pseudo.invalid && pseudo.touched" type="text" formControlName="pseudo"
                         placeholder="E.g.: Sacha">
                     </div>
@@ -52,8 +52,11 @@
                   <div *ngIf="pseudo.invalid && pseudo.touched">
                     <p class="help is-danger" *ngIf="pseudo.errors?.required">Veuillez saisir un Pseudo</p>
                     <p class="help is-danger" *ngIf="pseudo.errors?.minlength">Votre Pseudo doit contenir au moins 3
-                      lettres</p>
+                      lettres.</p>
+                      <p class="help is-danger" *ngIf="pseudo.errors?.maxlength">Votre Pseudo doit contenir au plus 10
+                        lettres.</p>
                   </div>
+                  <p class="help is-danger" *ngIf="usernameUnavailable"> Pseudo indisponible! veuillez en selectionner un autre. </p>
                 </div>
 
 
@@ -100,7 +103,7 @@
                     <div class="uk-width-expand uk-text-left "><span
                         class="uk-label uk-label-primary {{player.getPokemon()}}"> {{player.getUsername()}}</span></div>
                     <div *ngIf="player.getIsMainUser()"> <span uk-tooltip="Administrateur de la partie"
-                        uk-icon="icon: bolt"></span></div>
+                       class="mastericon"> <img src="../../assets/image/pokemon/045-crown.svg"></span></div>
                     <div *ngIf="player.getUsername()===currentPlayer.getUsername()"> <strong>Moi</strong> </div>
                   </div>
                 </li>

@@ -16,7 +16,7 @@
                 <label class="label uk-align-center"> Saisir un code pour rejoindre une partie </label>
                 <div class="field has-addons has-addons-centered">
                   <div class="control has-icons-right">
-                    <input class="input" [class.is-success]="!token.invalid && token.touched" maxlength="10" 
+                    <input class="input" [class.is-success]="!token.invalid && token.touched" maxlength="6" minlength="6"
                     style="text-transform:uppercase" 
                       [class.is-danger]="token.invalid && token.touched" type="text" formControlName="token"
                       placeholder="E.g.: YXPTEDE">
@@ -30,9 +30,10 @@
                 </div>
                 <div id="rpm" *ngIf="token.invalid && token.touched">
                   <small class="has-text-danger" *ngIf="token.errors?.required">Veuillez saisir un code</small>
-                  <small class="has-text-danger" *ngIf="token.errors?.minlength">le code doit contenir au moins 3
+                  <small class="has-text-danger" *ngIf="token.errors?.minlength">le code doit contenir exactement 6
                     lettres</small>
                 </div>
+                <small class="has-text-danger" *ngIf="tokenRejected">Code inconnu! </small>
               </form>
             </li>
             <li class="box-h100 has-text-centered">

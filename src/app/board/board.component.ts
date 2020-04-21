@@ -8,6 +8,7 @@ import * as $ from 'jquery';
 import { ChatService } from '../services/chat.service';
 import { Player } from '../models/player';
 import { GameService } from '../services/game.service';
+import { IPokemon } from '../interfaces/pokemon';
 declare var UIkit: any;
 
 
@@ -25,6 +26,7 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
   boardSubscription: Subscription;
   notifSubcription: Subscription;
   endGameSubcription: Subscription;
+  pokemonsList: IPokemon[];
   myHand: Card[];
   public employees = [];
   public errorMsg;
@@ -66,16 +68,11 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
       (message: string) => {
         if (message !== 'NO') {
           this.gameService.stopCptDecrement();
-         
+
           this.updateranking();
-          UIkit.modal.confirm(this.ranking).then((e) => {
-            e.preventDefault();
-            console.log('Confirm!');
-            this.gameService = new GameService();
-            this.router.navigate(['../home']);
-          }, (e) => {
-            console.log('Rejected.');
-          });
+          //this.gameService = new GameService();
+          // this.router.navigate(['../home']);
+
         }
       });
     this.currentPlayerSubject = this.gameService.currentPlayerSubject.subscribe(
@@ -115,16 +112,27 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   updateranking() {
-    let res = "<table class='uk-table uk-table-striped'>   <thead> <tr>  <th>Rang</th>  <th>Pseudo</th>   <th>Balles</th>   </tr>     </thead>     <tbody> ";
-
-    this.gameService.getPlayers().forEach(e => {
-      res = res + "<tr> <td>" + e.getRank() + + "</td> <td>" + e.getUsername() + "</td> <td>" + e.getPickedBalls() + "</td></tr>";
-    });
-    res = res + "</tbody>  </table>";
-    this.ranking = res;
+    this.sortPlayersbyRank();
+    $('#gameresult').addClass('is-active');
   }
   ngAfterViewInit() {
     this.gameService.decrementCpt();
+    $("#btn-to-home").click(function() {
+      this.gameService = new GameService();
+      this.router.navigate(['../home']);
+
+
+    });
+
+    $("btn-replay").click(function() {
+      
+      this.gameService.setPlayers([]);
+      this.gameService.setCurrentPlayer(new Player(null, null, null, null, null));
+      this.gameService.setBoard(new Board());
+      this.router.navigate(['../waitingPlayers?code=' + this.gameService. getCode() + '&userType=master']);
+
+
+    });
     $("#players_nav_toggle").on("click", function () {
       if ($("#sub_nav").hasClass("hidden")) {
         $("#sub_nav").removeClass("hidden");
@@ -151,6 +159,28 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
         });
       }
     }
+  }
+
+  sortPlayersbyRank() {
+    const len = this.players.length;
+    for (let i = len - 1; i >= 0; i--) {
+      for (let j = 1; j <= i; j++) {
+        if (this.players[j - 1].getRank() > this.players[j].getRank()) {
+          const temp = this.players[j - 1];
+          this.players[j - 1] = this.players[j];
+          this.players[j] = temp;
+        }
+      }
+    }
+  }
+  getPokemonImage(name) {
+    let result = null;
+    this.pokemonsList.forEach(e => {
+      if (e.name === name) {
+        result = e.image;
+      }
+    });
+    return result;
   }
 
   updateCurrentPlayerCards() {

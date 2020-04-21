@@ -1,3 +1,5 @@
+import { IPokemon } from '../interfaces/pokemon';
+
 export class Player {
 
     private username: string;
@@ -9,6 +11,7 @@ export class Player {
     private hand: number[];
     private cpt: number;
     private id: number;
+    pokemonsList: IPokemon[];
 
     constructor(username, pokemon, isMainUser, cpt, id) {
         this.username = username;
@@ -92,5 +95,30 @@ export class Player {
     }
     addcardtohand(card: number) {
         this.hand.push(card);
+    }
+    getRankVisual() {
+        let r = '<span>' + this.getRank + '</span>';
+        if (this.rank === 1) {
+            r = '<img scr="../../assets/image/pokemon/m1.png">';
+        }
+        if (this.rank === 2) {
+            r = '<img scr="../../assets/image/pokemon/m2.png">';
+        }
+        if (this.rank === 3) {
+            r = '<img scr="../../assets/image/pokemon/m3.png">';
+        }
+        return r;
+    }
+    getPokemonImage(name) {
+        let result = null;
+        this.pokemonsList.forEach(e => {
+            if (e.name === name) {
+                result = e.image;
+            }
+        });
+        return result;
+    }
+    getPokemonImageSrc() {
+        return '../../assets/image/pokemon/' + this.getPokemonImage(this.pokemon) + '.svg';
     }
 }

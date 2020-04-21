@@ -38,6 +38,7 @@ export class WaitingPlayersComponent implements OnInit {
   selectPseudoForm: FormGroup;
 
   pokemonsList: IPokemon[];
+  usernameUnavailable: boolean;
 
 
 
@@ -47,7 +48,9 @@ export class WaitingPlayersComponent implements OnInit {
     private formBuilder: FormBuilder,
     private myusernameService: UsernameService,
     private router: Router,
-    private chatService: ChatService) { }
+    private chatService: ChatService) {
+      this.usernameUnavailable = false;
+    }
 
 
   ngOnInit() {
@@ -74,20 +77,27 @@ export class WaitingPlayersComponent implements OnInit {
           console.log(message['content']);
           if (Array.isArray(message['content'])) {
             if (this.gameService.getCurrentPlayer().getPokemon() === 'inconnu') {
-              this.updatePlayers(message['content']);
+             // this.updatePlayers(message['content']);
             } else {
             //  UIkit.notification("<i class='uk-icon-close'></i> Profil mis à jour ", { status: 'success' });
+            if (message['to'].id === this.currentPlayer.getid()){
               UIkit.switcher("#wbul").show(2);
+            }
+           
               this.updatePlayers(message['content']);
             }
 
           } else {
             if (message['content'].split('-')[0] === 'KO ') {
               UIkit.notification("<i class='uk-icon-close'></i> Le speudo : " + message['content'].split('-')[1] + " est indisponible. Veuillez en choisir un autre ", { status: 'danger' });
+              this.usernameUnavailable = true;
             } else {
               if (message['content'].split('-')[0] === 'OK ') {
+                this.usernameUnavailable = false;
             //    UIkit.notification("<i class='uk-icon-close'></i> Speudo : " + message['content'].split('-')[1] + " mis à jour. Veuillez en choisir un pokemon: ", { status: 'success' });
-                UIkit.switcher("#wbul").show(1);
+            if (message['to'].id === this.currentPlayer.getid()){
+              UIkit.switcher("#wbul").show(1);
+            }
               }
 
             }
@@ -192,35 +202,7 @@ export class WaitingPlayersComponent implements OnInit {
     this.gameService.emitCurrentPlayer();
     this.chatService.addNewPlayer();
   }
-  UpdateCurrentUserName() {
-    const psd = this.pseudo.value;
-    const pk = this.pokemon.value;
-    this.myusernameService.checkUsername(this.code, psd)
-      .subscribe(
-        response => {
-          if (response.message.split('-').lenght > 1) {
-            if (response.message.split('-')[0] === 'Error username ') {
-              UIkit.notification("<i class='uk-icon-close'></i> Speudo : " + response.message.split('-')('-')[1] + "indisponible. Veuillez en choisir un autre Inconnu : ", { status: 'danger' });
-            } else {
-              if (psd === 'inconnu') {
-                this.gameService.getCurrentPlayer().setUsername(psd);
-              } else {
-                this.gameService.getCurrentPlayer().setUsername(psd);
-              }
-            }
-          } else {
-            console.log('error', 'reponse check username innatendu');
-          }
-
-          console.log('error', 'web service check username inaccessible');
-        }
-        ,
-        error => console.error('Error!', error)
-      );
-    // const temp = this.gameService.getCurrentPlayer().getUsername();
-    // this.gameService.getCurrentPlayer().setUsername(pseudo);
-    //  this.gameService.getPlayerByname(temp).setUsername(pseudo);
-  }
+ 
   get pseudo() {
     return this.selectPseudoForm.get('pseudo');
   }

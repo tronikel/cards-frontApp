@@ -15,16 +15,20 @@ export class HomeComponent implements OnInit {
 
   joinPartyForm: FormGroup;
   newPartyForm: FormGroup;
+  tokenRejected: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private myTokenservice: MyTokenService,
-    private gameService: GameService) { }
+    private gameService: GameService) {
+      this.tokenRejected = false;
+    }
 
   ngOnInit() {
     this.initJoinPartyForm();
     this.initNewPartyForm();
+    
   }
 
   initJoinPartyForm() {
@@ -72,10 +76,11 @@ export class HomeComponent implements OnInit {
     result = result + input.message;
     if (result.split('-').length > 1) {
       if (result.split('-')[0] === 'Error token ') {
-        UIkit.notification("<i class='uk-icon-close'></i> Code Inconnu : " + result.split('-')[1], { status: 'danger' });
+        this.tokenRejected = true;
+        //UIkit.notification("<i class='uk-icon-close'></i> Code Inconnu : " + result.split('-')[1], { status: 'danger' });
       } else {
       //  UIkit.notification("<i class='uk-icon-check'></i> Code accepté : " + result.split('-')[1], { status: 'success' });
-
+      this.tokenRejected = false;
         this.router.navigate(['../waitingPlayers'], { queryParams: { code: result.split('-')[1] , userType: type }});
        // this.router.navigate(['waitingPlayers']);
         console.log('navigate to waiting players Pseudo');

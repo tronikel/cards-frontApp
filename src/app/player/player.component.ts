@@ -20,6 +20,7 @@ export class PlayerComponent implements OnInit {
   
   minutes;
   secondes;
+  compteur;
   currentPlayerSubject: Subscription;
   cptSubcription: Subscription;
   cptClass ="uk-text-secondary";
@@ -31,10 +32,11 @@ export class PlayerComponent implements OnInit {
     this.secondes = "00";
     this.cptSubcription = this.gameService.cptSubject.subscribe(
       (cpt: number) => {
-        if (cpt < 10) {
+        
+        if (this.compteur < 12) {
           this.cptClass = "uk-text-danger";
         } else {
-          if (cpt < 30) {
+          if (this.compteur < 32) {
             this.cptClass = "uk-text-warning";
           } else {
             this.cptClass = "uk-text-secondary";
@@ -42,8 +44,9 @@ export class PlayerComponent implements OnInit {
 
         }
         if (!(this.player.getHasPlayed())) {
-          this.setSecondes(cpt);
-          this.setMinutes(cpt);
+          this.compteur = cpt;
+          this.setSecondes(this.compteur);
+          this.setMinutes(this.compteur);
         }
         //this.currentPlayer = currentPlayer;
         // console.log("board : current player Update");

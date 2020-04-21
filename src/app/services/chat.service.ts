@@ -23,6 +23,7 @@ export class ChatService {
     this.msg = {
       id: this.gameService.getCode(),
       from: this.gameService.getCurrentPlayer(),
+      to: 'server',
       status: this.gameService.getStatus(),
       content: this.gameService.getCode(),
     };
@@ -64,6 +65,7 @@ export class ChatService {
     this.msg = {
       id: this.gameService.getCode(),
       from: this.gameService.getCurrentPlayer(),
+      to : 'server',
       status: this.gameService.getStatus(),
       content: message
     };
@@ -76,6 +78,7 @@ export class ChatService {
       id: this.gameService.getCode(),
       from: this.gameService.getCurrentPlayer(),
       status: this.gameService.getStatus(),
+      to: 'server',
       content: this.gameService.getCode(),
     };
     this.socket.emit('Ask-ForPlayersUpdate', this.msg);
@@ -102,6 +105,7 @@ export class ChatService {
       id: this.gameService.getCode(),
       from: this.gameService.getCurrentPlayer(),
       status: this.gameService.getStatus(),
+      to : 'server',
       content: this.gameService.getCurrentPlayer()
     };
     this.subSocket.emit('new-player', this.msg);
@@ -113,6 +117,7 @@ export class ChatService {
       id: this.gameService.getCode(),
       from: this.gameService.getCurrentPlayer(),
       status: this.gameService.getStatus(),
+      to : 'server',
       content: code,
     };
     this.subSocket.emit('start-party', this.msg);
@@ -125,6 +130,7 @@ export class ChatService {
       id: this.gameService.getCode(),
       from: this.gameService.getCurrentPlayer(),
       status: this.gameService.getStatus(),
+      to : 'server',
       content: message,
     };
     this.subSocket.emit('update-party', this.msg);

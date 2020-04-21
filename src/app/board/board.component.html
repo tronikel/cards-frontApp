@@ -37,6 +37,42 @@
 		</div>
 		<app-chat></app-chat>
 	</div>
-
+	<div id="gameresult" class="modal">
+		<div class="modal-background"></div>
+		<div class="modal-card">
+		  <header class="modal-card-head">
+			<p class="modal-card-title">Partie terminée</p>
+			<button class="delete" aria-label="close"></button>
+		  </header>
+		  <section class="modal-card-body">
+			<table class="table">
+				<thead>
+				  <tr>
+					<th>Rang</th>
+					<th>pseudo</th>
+					<th>pokemon</th>
+					<th>Balles</th>
+				  </tr>
+				</thead>
+				<tr *ngFor = "let player of players">
+					<td class="rankIcon">
+					  {{player.getRankVisual()}}
+					</td>
+					<td>
+						{{player.getUsername()}}
+					</td>
+					<td class="pokemonIcon">
+						<img src="{{player. getPokemonImageSrc()}}">
+					</td>
+					{{player.getPickedBalls()}}
+				  </tr>
+			</table>
+		  </section>
+		  <footer class="modal-card-foot">
+			<button id="btn-to-home" class="button is-success">revenir à l'accueil</button>
+			<button id="btn-replay"class="button">Rejouer cette partie</button>
+		  </footer>
+		</div>
+	  </div>
 
 </section>
