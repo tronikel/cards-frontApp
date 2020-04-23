@@ -2,7 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { GameService } from '../services/game.service';
 import { ChatService } from '../services/chat.service';
-import { Subscription } from 'rxjs';
+import { Subscription, from } from 'rxjs';
+import { Card } from '../models/card';
 import * as $ from 'jquery';
 declare var UIkit: any;
 
@@ -12,18 +13,24 @@ declare var UIkit: any;
   styleUrls: ['./my-hand.component.css']
 })
 export class MyHandComponent implements OnInit {
-  @Input("myHand") cards: number[];
+  @Input("myHand") cds: number[];
   @Input("username") playerUsername: string;
   @Input("hasPlayed") playerhasPlayed: boolean;
+  cards: Card[];
   rdPlaySubcription: Subscription;
   constructor(private gameService: GameService, private chatService: ChatService) { }
 
   ngOnInit() {
+    this.cards = [];
+    this.cds.forEach(e => {
+      this.cards.push(new Card(e));
+    });
+
     this.rdPlaySubcription = this.gameService.rdPlaySubject.subscribe(
       (e) => {
 
         this.playRandomCard();
-         
+
         //this.currentPlayer = currentPlayer;
         // console.log("board : current player Update");
       }
@@ -39,32 +46,36 @@ export class MyHandComponent implements OnInit {
   playRandomCard() {
     if (!this.playerhasPlayed) {
       const r = Math.floor(Math.random() * this.cards.length);
-      console.log(this.setid(this.cards[r]) + ": Double Click! - " + this.playerUsername);
-      this.gameService.playCard(this.playerUsername, this.cards[r]);
-      this.cards.splice(r, 1);
+
+      this.gameService.playCard(this.playerUsername, this.cards[r].getNumber());
+      this.cards[r].setStatus('busy');
       const message = {
-        players : this.gameService.getPlayers(),
-        rounds : this.gameService.getRounds(),
-        board : this.gameService.getBoard(),
-        status : this.gameService.getStatus(),
-        currentRound : this.gameService.getCurrentRound(),
-        };
+        players: this.gameService.getPlayers(),
+        rounds: this.gameService.getRounds(),
+        board: this.gameService.getBoard(),
+        status: this.gameService.getStatus(),
+        currentRound: this.gameService.getCurrentRound(),
+      };
       this.chatService.sendGame(message);
     }
 
   }
   playCard(playedCard) {
     if (!this.playerhasPlayed) {
-    this.cards.splice(this.cards.indexOf(playedCard), 1);
-    this.gameService.playCard(this.playerUsername, playedCard);
-    const message = {
-      players : this.gameService.getPlayers(),
-      rounds : this.gameService.getRounds(),
-      board : this.gameService.getBoard(),
-      status : this.gameService.getStatus(),
-      currentRound : this.gameService.getCurrentRound(),
+      this.cards.forEach(e => {
+        if(e.getNumber() === playedCard) {
+            e.setStatus('busy');
+        }
+      });
+      this.gameService.playCard(this.playerUsername, playedCard);
+      const message = {
+        players: this.gameService.getPlayers(),
+        rounds: this.gameService.getRounds(),
+        board: this.gameService.getBoard(),
+        status: this.gameService.getStatus(),
+        currentRound: this.gameService.getCurrentRound(),
       };
-    this.chatService.sendGame(message);
+      this.chatService.sendGame(message);
     } else {
       UIkit.notification('<i class="uk-icon-close"></i> Veuillez attendre que les autres joueurs jouent ', { status: 'danger' });
     }

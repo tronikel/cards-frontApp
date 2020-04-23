@@ -68,7 +68,7 @@
               <div id="pokemons" class=" uk-flex uk-margin-auto  uk-flex-between uk-text-center" uk-grid>
                 <div class="uk-card uk-card-default uk-card-small uk-card-body  {{obj.name}} "
                   *ngFor="let obj of pokemonsList;let i = index" [class.available]="!obj.selected"
-                  [class.unavailable]="obj.selected" (click)="selectPokemon( $event, i ,obj.name)">
+                  [class.unavailable]="obj.selected" (mouseover)="selectPokemon( $event, i ,obj.name)">
                   <div class="uk-text-center">
                     <img class="uk-border-circle" width="60" height="60"
                       src="../../assets/image/pokemon/{{obj.image}}.svg">
@@ -84,8 +84,8 @@
                       <p> <small class="help"> Selectionner par {{obj.master}}</small></p>
                     </ng-template>
 
-                    <span (click)="sendPokemonAndUsernmaneChoice(obj.name,null)" class="uk-badge is-hidden"> <span
-                        uk-icon="icon: arrow-right"></span>
+                    <span (click)="sendPokemonAndUsernmaneChoice(obj.name,null)" class="gobadge uk-badge is-hidden"> <span
+                        >Sélectionner</span>
                     </span>
                   </div>
                 </div>
@@ -94,8 +94,8 @@
             <li class="box-h100  has-text-centered">
               <label class="label"> Liste des joueurs connectés</label>
               <ul id="connectedUsers" class="uk-list uk-list-striped" *ngFor="let player of players">
-                <li>
-                  <div *ngIf="(player.getPokemon() !== 'inconnu')&&(player.getPokemon() !== '')&&(player.isSet())"class="uk-grid-small uk-flex-middle" uk-grid>
+                <li  *ngIf="(player.getPokemon() !== 'inconnu')&&(player.getPokemon() !== '')&&(player.isSet())">
+                  <div class="uk-grid-small uk-flex-middle" uk-grid>
                     <div class="uk-width-auto"> <img class="uk-align-center uk-align-middle@m  uk-border-circle"
                         [src]='getPokemonImage(player.getPokemon())' width="40" height="40"
                         alt="{{player.getPokemon()}}">

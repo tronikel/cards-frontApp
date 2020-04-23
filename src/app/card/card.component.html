@@ -1,4 +1,4 @@
-<div class="pokecard" (click)="singleClick()" (dblclick)="doubleClick()">
+<div class="pokecard {{status}}" (click)="singleClick()" (dblclick)="doubleClick()">
 	<div style="width:70px; height:100px" class="card {{color}}" *ngIf="isnull(); else elseBlock" >
 		
 

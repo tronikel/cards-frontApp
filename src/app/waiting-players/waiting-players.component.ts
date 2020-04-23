@@ -293,17 +293,5 @@ export class WaitingPlayersComponent implements OnInit {
     });
   }
 
-  username() {
-    // console.log(this.pseudo());
-    const psd = this.pseudo.value as string;
-
-    this.myusernameService.checkUsername(this.code, psd)
-      .subscribe(
-        response => console.log(response),
-        error => console.error('Error!', error)
-      );
-    console.log('New Join');
-
-  }
 
 }

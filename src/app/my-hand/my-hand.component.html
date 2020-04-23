@@ -1,6 +1,6 @@
 <div id="myHand" >
 	<div class="row uk-flex" >
-		<app-card  *ngFor="let num of cards" [number]="num" [id]="setid(num)" (cardHighlighted)="highlightCard($event)" (cardSelected)="playCard($event)"></app-card>
+		<app-card uk-tooltip="title: Double-cliquez pour jouer" *ngFor="let cd of cards"  [status]="cd.getStatus()" [number]="cd.getNumber()" [id]="setid(cd.getNumber())" (cardHighlighted)="highlightCard($event)" (cardSelected)="playCard($event)"></app-card>
 	</div>
 	
 </div>

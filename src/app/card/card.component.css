@@ -21,6 +21,12 @@ div > img {
      
 
 }  
+.card img{
+	-webkit-user-select: none;  /* Chrome all / Safari all */
+	-moz-user-select: none;     /* Firefox all */
+	-ms-user-select: none;      /* IE 10+ */
+	user-select: none;          /* Likely future */  
+}
 .card-top{
 	background-color: lightgreen;
 	border-radius: 6px 6px  0px 0px;
@@ -38,7 +44,32 @@ div > img {
 .picked{	
 	color: black;
 }
+.busy{
+	-webkit-filter: blur(0.9px) grayscale(100%);
+	-moz-filter: blur(0.9px)grayscale(100%);
+	-o-filter: blur(0.9px) grayscale(100%);
+	-ms-filter: blur(0.9px) grayscale(100%);
+	filter: blur(0.9px) grayscale(100%);
+	animation: blush 5s;
+}
 
+@keyframes blush {
+0% {-webkit-filter: blur(0.1px) grayscale(0%);
+	-moz-filter: blur(0.1px)grayscale(0%);
+	-o-filter: blur(0.1px) grayscale(0%);
+	-ms-filter: blur(0.1px) grayscale(0%);
+	filter: blur(0.1px) grayscale(0%);}
+10% {-webkit-filter: blur(0.5px) grayscale(100%);
+	-moz-filter: blur(0.5px)grayscale(100%);
+	-o-filter: blur(0.5px) grayscale(100%);
+	-ms-filter: blur(0.5px) grayscale(100%);
+	filter: blur(0.5px) grayscale(100%);}
+100%{-webkit-filter: blur(0.9px) grayscale(100%);
+	-moz-filter: blur(0.9px)grayscale(100%);
+	-o-filter: blur(0.9px) grayscale(100%);
+	-ms-filter: blur(0.9px) grayscale(100%);
+	filter: blur(0.9px) grayscale(100%);}
+}
 .card.Pikachu{
 	border: 1px solid rgba(255, 217, 0, 1);
     box-shadow: 1px 1px 5px 2px rgba(255, 217, 0, 1);

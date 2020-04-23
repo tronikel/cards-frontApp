@@ -1,11 +1,13 @@
 export class Card {
     private ball: number;
     private number: number;
+    private status: string;
     color: string;
 
 
     constructor(n: number) {
-        this.number = n;
+        this.status = '',
+            this.number = n;
         if (n === 0) {
             this.ball = 0;
         } else {
@@ -30,6 +32,12 @@ export class Card {
     }
     getNumber() {
         return this.number;
+    }
+    getStatus() {
+        return this.status;
+    }
+    setStatus(status: string) {
+        this.status = status;
     }
     setNumber(n: number) {
         this.number = this.number;
