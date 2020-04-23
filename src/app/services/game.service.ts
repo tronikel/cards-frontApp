@@ -69,7 +69,7 @@ export class GameService {
   }
 
   constructor() {
-    this.currentPlayer = new Player('inconnu', 'inconnu', false, 0, 0);
+    this.currentPlayer = new Player('inc', 'inconnu', false, 0, 0);
     this.board = (new Board());
     this.currentRound = 0;
     this.endGame = 'NO';
@@ -84,7 +84,7 @@ export class GameService {
     this.code = code;
     this.players = new Array<Player>();
     this.status = this.STATUS.WAITING;
-    const username = 'inconnu-' + Math.floor(Math.random() * 1000);
+    const username = 'inc-' + Math.floor(Math.random() * 1000);
     const id = Math.random();
     const ismaster: boolean = usertype === 'master';
     // console.log(usertype + 'ismaster : ' + (usertype === 'master'));

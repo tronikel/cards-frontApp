@@ -11,7 +11,7 @@
           </ul>
 
           <ul class="uk-switcher uk-margin">
-            <li class=" box-h100 has-text-centered">
+            <li class="box-h140  has-text-centered">
               <form [formGroup]="joinPartyForm" (ngSubmit)="joinParty()">
                 <label class="label uk-align-center"> Saisir un code pour rejoindre une partie </label>
                 <div class="field has-addons has-addons-centered">
@@ -28,17 +28,19 @@
                   </div>
 
                 </div>
+                <small class="has-text-danger" *ngIf="tokenRejected">Code inconnu! </small>
                 <div id="rpm" *ngIf="token.invalid && token.touched">
                   <small class="has-text-danger" *ngIf="token.errors?.required">Veuillez saisir un code</small>
                   <small class="has-text-danger" *ngIf="token.errors?.minlength">le code doit contenir exactement 6
                     lettres</small>
+                  
                 </div>
-                <small class="has-text-danger" *ngIf="tokenRejected">Code inconnu! </small>
+               
               </form>
             </li>
-            <li class="box-h100 has-text-centered">
+            <li class=" box-h140  has-text-centered">
               <form [formGroup]="newPartyForm" (ngSubmit)="newParty()">
-                <label class="label"> Clickez sur le bouton pour créer une nouvelle party </label>
+                <label class="label"> Cliquer sur le bouton pour créer une nouvelle partie </label>
                 <div class="field">
                   <p class="control has-text-centered">
                     <button type="submit" class="button is-success">

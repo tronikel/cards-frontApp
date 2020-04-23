@@ -62,7 +62,7 @@
 
               </form>
             </li>
-            <li class="box-h100 has-text-centered">
+            <li class="box-h100  has-text-centered">
 
               <label class="label"> Selection un pokemon </label>
               <div id="pokemons" class=" uk-flex uk-margin-auto  uk-flex-between uk-text-center" uk-grid>
@@ -91,11 +91,11 @@
                 </div>
               </div>
             </li>
-            <li class="box-h100 has-text-centered">
+            <li class="box-h100  has-text-centered">
               <label class="label"> Liste des joueurs connectés</label>
               <ul id="connectedUsers" class="uk-list uk-list-striped" *ngFor="let player of players">
                 <li>
-                  <div *ngIf="(player.getPokemon() !== 'inconnu')&&(player.getPokemon() !== '')&&(player.getUsername() !== 'inconnu')"class="uk-grid-small uk-flex-middle" uk-grid>
+                  <div *ngIf="(player.getPokemon() !== 'inconnu')&&(player.getPokemon() !== '')&&(player.isSet())"class="uk-grid-small uk-flex-middle" uk-grid>
                     <div class="uk-width-auto"> <img class="uk-align-center uk-align-middle@m  uk-border-circle"
                         [src]='getPokemonImage(player.getPokemon())' width="40" height="40"
                         alt="{{player.getPokemon()}}">
@@ -114,8 +114,11 @@
                 <div *ngIf="currentPlayer.getPokemon() === ''">
                   <p>
                     <small class="help uk-text-warning">
-                      Veuillez selectionner un Pseudo et un pokemon puis partager le code la partie.
+                      Veuillez sélectionner un Pseudo et un Pokemon puis partager le code la partie.
                     </small>
+                    <button disabled class="button is-success uk-margin-small-top">
+                      Lancer la partie
+                    </button>
                   </p>
                 </div>
                 <div *ngIf="!(currentPlayer.getPokemon() === '')">
@@ -124,6 +127,11 @@
                       <small class="help uk-text-warning">
                         Veuillez partager le code la partie et attendre que de nouveaux joueurs se connectent.
                       </small>
+                  
+                        <button disabled class="button is-success uk-margin-small-top">
+                          Lancer la partie
+                        </button>
+                      
                     </p>
                   </div>
                   <div *ngIf="!(players.length < 2)">
@@ -140,7 +148,7 @@
                 <div *ngIf="currentPlayer.getPokemon() === ''">
                   <p>
                     <small class="help uk-text-warning">
-                      Veuillez selectionner un Pseudo et un pokemon
+                      Veuillez selectionner un Pseudo et un Pokemon
                     </small>
                   </p>
                 </div>

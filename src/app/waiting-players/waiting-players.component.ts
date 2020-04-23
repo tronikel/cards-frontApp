@@ -123,7 +123,7 @@ export class WaitingPlayersComponent implements OnInit {
             );
 
           } else {
-            UIkit.notification("<i class='uk-icon-close'></i> Trop tard! La partie commencera sans vous", { status: 'danger' });
+            UIkit.notification("<i class='uk-icon-close'></i> Trop tard! La partie a commencé sans vous!", { status: 'danger' });
             this.router.navigate(['../home']);
           }
         }
@@ -238,7 +238,7 @@ export class WaitingPlayersComponent implements OnInit {
         document.execCommand("copy");
         window.getSelection().empty();
         console.log("chrome");
-        UIkit.notification("<i class='uk-icon-close'></i> le code :  " + this.code + " a été copié dans le presse papier", { status: 'success' });
+        UIkit.notification("<i class='uk-icon-close'></i> Le code :  " + this.code + " a été copié dans le presse-papier", { status: 'success' });
       } else if (window.getSelection().removeAllRanges) { // Firefox
         window.getSelection().removeAllRanges();
         const range = document.createRange();

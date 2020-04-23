@@ -118,6 +118,13 @@ export class Player {
         });
         return result;
     }
+    isSet(): boolean{
+        let test = false;
+        if (this.username.split('-')[0] !== 'inc') {
+                    test = true;
+        }
+        return test;
+    }
     getPokemonImageSrc() {
         return '../../assets/image/pokemon/' + this.getPokemonImage(this.pokemon) + '.svg';
     }

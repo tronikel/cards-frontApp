@@ -3,8 +3,8 @@
     background-repeat: no-repeat;
     background-size: 100% auto ;
     }
-.box-h100 {
-    height: 100px;
+.box-h140 {
+    min-height: 140px;
 }
 
 .uk-tab > .uk-active > a{
@@ -18,23 +18,3 @@
     color: #a0aec0;
       opacity: 1; /* Firefox */
 }
-
-#6cards .uk-notification{
-    border-radius: 4px;
-    border-style: solid;
-    border-width: 0 0 0 4px;
-    }
-    #6cards .uk-notification-message-success {
-    border-color:#48c774 ;
-    }
-    #6cards .uk-notification-message-danger {
-    border-color:#f14668 ;
-    }
-    #6cards .uk-notification-message-warning {
-    border-color:#ffdd57 ;
-    }
-    
-    #6cards .uk-notification-message{
-    font-size: .8rem;
-    color: darkgrey !important;
-    }

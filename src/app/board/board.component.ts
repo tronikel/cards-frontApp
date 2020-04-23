@@ -40,13 +40,14 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
     private chatService: ChatService) {
     this.board = new Board();
     this.pokemonsList = allPokemons as IPokemon[];
-    
+
   }
 
   ngOnInit() {
-    if ( this.gameService.getStatus() !== '2') {
+    if (this.gameService.getStatus() !== '2') {
+      UIkit.notification("<i class='uk-icon-close'></i> Trop tard! La partie a commencé sans vous!", { status: 'danger' });
       this.router.navigate(['../home']);
-     }
+    }
     this.pokemonsList = allPokemons as IPokemon[];
     this.players = this.gameService.getPlayers();
     this.currentPlayer = this.gameService.getCurrentPlayer();
@@ -119,31 +120,44 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   updateranking() {
-   
+
     this.sortPlayersbyRank();
+    $('html').addClass('is-clipped');
     $('#gameresult').addClass('is-active');
   }
+
   ngAfterViewInit() {
     this.gameService.decrementCpt();
-    $("#btn-to-home").click(function() {
-      this.gameService = new GameService();
-      this.router.navigate(['../home']);
-
-
+    $('.modal-close').click(() =>  {
+      $('html').removeClass("is-clipped");
+      $('#gameresult').removeClass("is-active");
     });
 
-    $("btn-replay").click(function() {
-      if (this.gameService.getCurrentPlayer.getIsMainUser()) {
-      this.gameService.setPlayers([]);
-      this.gameService.setCurrentPlayer(new Player(null, null, null, true, null));
-      this.gameService.setBoard(new Board());
+    $('.modal-background').click(() => {
+      $('html').removeClass("is-clipped");
+      $('#gameresult').removeClass("is-active");
+    });
 
-      this.router.navigate(['../waitingPlayers?code=' + this.gameService. getCode() + '&userType=master']);
+    $("#btn-to-home").click(() =>  {
+      console.log("to home");
+
+      this.router.navigate(['../home']);
+      this.gameService = new GameService();
+    });
+
+    $("#btn-replay").click(function() {
+      console.log("to home");
+      if (this.gameService.getCurrentPlayer.getIsMainUser()) {
+        this.gameService.setPlayers([]);
+        this.gameService.setCurrentPlayer(new Player(null, null, null, true, null));
+        this.gameService.setBoard(new Board());
+
+        this.router.navigate(['../waitingPlayers?code=' + this.gameService.getCode() + '&userType=master']);
       } else {
         this.gameService.setPlayers([]);
         this.gameService.setCurrentPlayer(new Player(null, null, null, false, null));
         this.gameService.setBoard(new Board());
-        this.router.navigate(['../waitingPlayers?code=' + this.gameService. getCode()]);
+        this.router.navigate(['../waitingPlayers?code=' + this.gameService.getCode()]);
 
       }
 
