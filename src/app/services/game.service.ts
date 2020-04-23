@@ -457,6 +457,7 @@ export class GameService {
       });
 
     }
+    this.stopCptDecrement();
     this.decrementCpt();
   }
 
