@@ -143,6 +143,8 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.router.navigate(['../home']);
       this.gameService = new GameService();
+      $('html').removeClass("is-clipped");
+      $('#gameresult').removeClass("is-active");
     });
 
     $("#btn-replay").click(function() {
@@ -153,11 +155,15 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
         this.gameService.setBoard(new Board());
 
         this.router.navigate(['../waitingPlayers?code=' + this.gameService.getCode() + '&userType=master']);
+        $('html').removeClass("is-clipped");
+        $('#gameresult').removeClass("is-active");
       } else {
         this.gameService.setPlayers([]);
         this.gameService.setCurrentPlayer(new Player(null, null, null, false, null));
         this.gameService.setBoard(new Board());
         this.router.navigate(['../waitingPlayers?code=' + this.gameService.getCode()]);
+        $('html').removeClass("is-clipped");
+        $('#gameresult').removeClass("is-active");
 
       }
 

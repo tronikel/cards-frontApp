@@ -1,6 +1,6 @@
 <nav class="navbar is-transparent main-navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="#">
+    <a class="navbar-item" >
 
       <div class="uk-inline-clip uk-transition-toggle" (click)="gotoHome()" tabindex="0">
         <img src="../assets/logo2.png" alt="Bulma: a modern CSS framework based on Flexbox" height="28">
@@ -35,4 +35,20 @@
 
   <router-outlet></router-outlet>
 
+</div>
+<div id="logomodal" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Quitter la partie ?</p>
+      <button class="delete" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      Etes-vous sûr de vouloir quitter cette partie? 
+    </section>
+    <footer class="modal-card-foot">
+      <button id="btn-cancel-lg" class="button">Annuler</button>
+      <button id="btn-to-home-lg" class="button is-danger">Revenir à l'accueil</button>
+    </footer>
+  </div>
 </div>
