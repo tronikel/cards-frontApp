@@ -28,11 +28,15 @@
 
 	<div id="mygame">
 		<div uk-grid>
-			<div>
+			<div class=" roundgroup uk-text-center card">
+				<div class="roundnumber">{{getRound()}}<span class="roundsuffix">{{getRoundsuffix()}}</span> </div>
+				<div class="roundlabel">Tour</div>
+			</div>	
+			<div class="currentplayer">
 				<app-player [player]="currentPlayer"></app-player>
 			</div>
 			<div>
-				<app-my-hand [hasPlayed]="currentPlayer.getHasPlayed()" [username]="currentPlayer.getUsername() "
+				<app-my-hand [pokemon]="currentPlayer.getPokemon()" [hasPlayed]="currentPlayer.getHasPlayed()" [username]="currentPlayer.getUsername() "
 					[myHand]="currentPlayer.getHand()"></app-my-hand>
 			</div>
 		</div>
@@ -46,7 +50,7 @@
 				<button class="delete" aria-label="close"></button>
 			</header>
 			<section class="modal-card-body">
-				<table class="table">
+				<table class="table"  style="width: 100%">
 					<thead>
 						<tr>
 							<th>Rang</th>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -20,7 +20,7 @@ import { templateJitUrl } from '@angular/compiler';
   templateUrl: './waiting-players.component.html',
   styleUrls: ['./waiting-players.component.css'],
 })
-export class WaitingPlayersComponent implements OnInit {
+export class WaitingPlayersComponent implements OnInit, AfterViewInit {
 
   code: string;
   selectedpseudo: string;
@@ -33,6 +33,7 @@ export class WaitingPlayersComponent implements OnInit {
   codeSubscription: Subscription;
   players: Player[];
   playersSubscription: Subscription;
+  currentPlayerSubscription: Subscription;
 
   waiting: number;
   selectPseudoForm: FormGroup;
@@ -54,6 +55,18 @@ export class WaitingPlayersComponent implements OnInit {
 
 
   ngOnInit() {
+
+    this.currentPlayerSubscription = this.gameService.currentPlayerSubject.subscribe(
+      (player: Player) => {
+        this.currentPlayer = new Player(null, null, null, null, null).create(player);
+        console.log("WaitingPlayers : current player " + this.currentPlayer.getUsername());
+      });
+
+    this.playersSubscription = this.gameService.playersSubject.subscribe(
+      (players: Player[]) => {
+        this.players = players;
+        console.log("WaitingPlayers : players Update");
+      });
     this.route.queryParams.subscribe((params: ParamMap) => {
       let id = null;
       console.log(params);
@@ -65,7 +78,6 @@ export class WaitingPlayersComponent implements OnInit {
       this.pokemonsList = allPokemons as IPokemon[];
       this.initselectPseudoForm();
       this.gameService.init(id, userType);
-      console.log(this.gameService.getCurrentPlayer());
       this.chatService.initSocket();
       this.chatService.getNewsubConnections().subscribe((message) => {
         if (!(typeof message['content'] === 'undefined')) {
@@ -76,12 +88,23 @@ export class WaitingPlayersComponent implements OnInit {
         if (!(typeof message['content'] === 'undefined')) {
           console.log(message['content']);
           if (Array.isArray(message['content'])) {
-            if (this.gameService.getCurrentPlayer().getPokemon() === 'inconnu') {
-         
+            if (this.currentPlayer.getPokemon() === 'inconnu') {
+
               this.updatePlayers(message['content']);
+              if (message['to'].id === this.currentPlayer.getid()) {
+
+                this.usernameUnavailable = false;
+                UIkit.switcher("#wbul").show(1);
+              }
+
             } else {
               //  UIkit.notification("<i class='uk-icon-close'></i> Profil mis à jour ", { status: 'success' });
-              if (message['to'].username === this.currentPlayer.getUsername()) {
+              console.log(message['to'].id + " vs " + this.currentPlayer.getid());
+              if (message['to'].id === this.currentPlayer.getid()) {
+                if ((this.currentPlayer.getUsername().split('-')[0] !== 'inc') && (this.currentPlayer.getPokemon() !== 'inconnu')) {
+                  $('#wbul li a').removeClass("disablea");
+                }
+                this.usernameUnavailable = false;
                 UIkit.switcher("#wbul").show(2);
               }
 
@@ -90,14 +113,28 @@ export class WaitingPlayersComponent implements OnInit {
 
           } else {
             if (message['content'].split('-')[0] === 'KO ') {
-            //  UIkit.notification("<i class='uk-icon-close'></i> Le speudo : " + message['content'].split('-')[1] + " est indisponible. Veuillez en choisir un autre ", { status: 'danger' });
-              this.usernameUnavailable = true;
+              //  UIkit.notification("<i class='uk-icon-close'></i> Le speudo : " + message['content'].split('-')[1] + " est indisponible. Veuillez en choisir un autre ", { status: 'danger' });
+
+
+              if (message['to'].id === this.currentPlayer.getid()) {
+                this.usernameUnavailable = true;
+                console.log(this.gameService.getCurrentPlayer().getUsername());
+                this.currentPlayer.setUsername(this.gameService.getCurrentPlayer().getUsername());
+                console.log("ko");
+                console.log(this.currentPlayer.getUsername());
+
+              }
             } else {
               if (message['content'].split('-')[0] === 'OK ') {
-                this.usernameUnavailable = false;
-                console.log (message['to'].username + " vs " + this.currentPlayer.getUsername());
+
+
                 //    UIkit.notification("<i class='uk-icon-close'></i> Speudo : " + message['content'].split('-')[1] + " mis à jour. Veuillez en choisir un pokemon: ", { status: 'success' });
-                if (message['to'].username === this.currentPlayer.getUsername()) {
+                if (message['to'].id === this.currentPlayer.getid()) {
+                  this.usernameUnavailable = false;
+                  console.log("ok");
+                  console.log(message['to'].username + " vs " + this.currentPlayer.getUsername());
+                  this.gameService.getCurrentPlayer().setUsername(this.currentPlayer.getUsername());
+                  console.log(this.gameService.getCurrentPlayer().getUsername());
                   UIkit.switcher("#wbul").show(1);
                 }
               }
@@ -116,6 +153,7 @@ export class WaitingPlayersComponent implements OnInit {
             this.gameService.updateAll(message['content']).then(
               (val) => {
                 console.log(' start party : content updated');
+                console.log(this.gameService.getCurrentPlayer().getHand());
                 this.router.navigate(['../board'], { queryParams: { code: this.code } });
                 UIkit.notification("<i class='uk-icon-close'></i> La partie est lancée", { status: 'success' });
               },
@@ -130,11 +168,15 @@ export class WaitingPlayersComponent implements OnInit {
       });
 
     });
-    this.playersSubscription = this.gameService.playersSubject.subscribe(
-      (players: Player[]) => {
-        this.players = players;
-        console.log("WaitingPlayers : players Update");
-      });
+
+
+  }
+
+  ngAfterViewInit() {
+    $('#usernameinput').change(() => {
+      this.usernameUnavailable = false;
+    });
+
   }
 
   initselectPseudoForm() {
@@ -165,7 +207,13 @@ export class WaitingPlayersComponent implements OnInit {
 
     }
   }
+  removeselectiontbtn(i) {
+    if ($('#pokemons').children().eq(i).hasClass('available')) {
+    $('#pokemons').children().eq(i).removeClass('selected');
+    $('#pokemons').children().eq(i).find('span.uk-badge').addClass('is-hidden');
+    }
 
+  }
   ismaster(): boolean {
     let result = false;
     if (this.gameService.getCurrentPlayer().getIsMainUser()) {
@@ -177,32 +225,30 @@ export class WaitingPlayersComponent implements OnInit {
 
   sendPokemonChoice(event, i, name) {
     this.currentPlayer.setPokemon(name);
-    const temp = this.gameService.getCurrentPlayer().getUsername();
-    this.gameService.getCurrentPlayer().setPokemon(name);
-    this.gameService.getPlayerByname(temp).setUsername(name);
-    this.gameService.emitPlayers();
+    const temp = (new Player(null, null, null, null, null)).create(this.gameService.getCurrentPlayer());
+    temp.setPokemon(name);
+    // this.gameService.getCurrentPlayer().setPokemon(name);
+    // this.gameService.getPlayerByname(temp).setUsername(name);
+    //  this.gameService.emitPlayers();
     this.gameService.gameReady();
-    this.gameService.emitCurrentPlayer();
-    this.chatService.addNewPlayer();
+    // this.gameService.emitCurrentPlayer();
+    this.chatService.addNewPlayer(temp);
   }
   sendPokemonAndUsernmaneChoice(pokemon, username) {
+    //  this.currentPlayer  = (new Player(null, null, null, null, null)).create(this.gameService.getCurrentPlayer());
     if (username != null) {
-      const temp = this.gameService.getCurrentPlayer().getUsername();
-      this.gameService.getPlayerByname(temp).setUsername(username);
       this.currentPlayer.setUsername(username);
-      this.gameService.getCurrentPlayer().setUsername(username);
+      console.log("WaitingPlayers : gameservice current player " + this.gameService.getCurrentPlayer().getUsername());
     }
     if (pokemon != null) {
-      console.log("pokemon : " + pokemon);
-      const temp = this.gameService.getCurrentPlayer().getUsername();
-      this.gameService.getPlayerByname(temp).setPokemon(pokemon);
-      this.gameService.getCurrentPlayer().setPokemon(pokemon);
       this.currentPlayer.setPokemon(pokemon);
     }
-    this.gameService.emitPlayers();
+    // this.gameService.emitPlayers();
     // this.gameService.gameReady();
-    this.gameService.emitCurrentPlayer();
-    this.chatService.addNewPlayer();
+    // this.gameService.emitCurrentPlayer();
+    console.log("currentPlayer");
+    console.log(this.currentPlayer);
+    this.chatService.addNewPlayer(this.currentPlayer);
   }
 
   get pseudo() {
@@ -254,6 +300,7 @@ export class WaitingPlayersComponent implements OnInit {
   startParty() {
     console.log(this.gameService.getPlayers());
     this.gameService.gameStarted();
+    this.gameService.dealcards();
     const message = {
       players: this.gameService.getPlayers(),
       rounds: this.gameService.getRounds(),
@@ -266,10 +313,13 @@ export class WaitingPlayersComponent implements OnInit {
   }
 
   updatePlayers(message) {
+
     const newPlayers: Player[] = [];
+
     message.forEach((e) => {
       newPlayers.push(new Player(e.username, e.pokemon, e.isMainUser, e.cpt, e.id));
     });
+
     this.gameService.setPlayers(newPlayers);
     console.log(this.gameService.getPlayers());
     console.log("players listed");
@@ -281,8 +331,9 @@ export class WaitingPlayersComponent implements OnInit {
         b.master = "inconnu";
       }
     });
+
     this.gameService.getPlayers().forEach((e) => {
-      ///  console.log(e.getPokemon());
+      //  console.log(e.getPokemon());
       this.players.push(e);
       this.pokemonsList.forEach((b) => {
         if (e.getPokemon() === b.name) {
@@ -291,6 +342,7 @@ export class WaitingPlayersComponent implements OnInit {
         }
       });
     });
+
   }
 
 

@@ -1,3 +1,6 @@
 #myHand .pokecard img{
 width: 60px;
 }
+#myHand{
+    padding-top: 8px;
+}

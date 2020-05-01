@@ -1,9 +1,12 @@
 .player {
     padding: 6px 0px 0px 0px;
-    width: 190px;
+    min-width: 200px;
+    background-color: #ffefef;
+border-left: 5px solid rgba(255, 0, 0, 0.8);
+ 
 }
 .padding5{
-	padding: 3px 6px 3px 6px ;
+	padding: 3px 6px 3px 10px ;
 	text-align: center;
 }
 .picked-ball span{
@@ -21,6 +24,10 @@
 }
 .hasPlayed{
 box-shadow: 0px 0px 8px 4px rgba(0, 255, 0, 0.8);
+}
+.player.phasPlayed{
+background-color: white;
+border-left: 5px solid #47C656;
 }
 p.username{
   margin: 8px 0px;

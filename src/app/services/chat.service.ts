@@ -8,8 +8,8 @@ import { GameService } from './game.service';
   providedIn: 'root'
 })
 export class ChatService {
-  //private url = 'http://localhost:3000';
-  private url = 'http://18.224.183.130:3000';
+  private url = 'http://localhost:3000';
+  // private url = 'http://18.224.183.130:3000';
   private socket;
   private subSocket;
   private msg = {};
@@ -100,13 +100,13 @@ export class ChatService {
     });
   }*/
 
-  addNewPlayer() {
+  addNewPlayer(player) {
     this.msg = {
       id: this.gameService.getCode(),
       from: this.gameService.getCurrentPlayer(),
       status: this.gameService.getStatus(),
       to : 'server',
-      content: this.gameService.getCurrentPlayer()
+      content: player
     };
     this.subSocket.emit('new-player', this.msg);
     console.log('new Player : ' + this.gameService.getCurrentPlayer().getPokemon());

@@ -14,6 +14,7 @@ declare var UIkit: any;
 })
 export class MyHandComponent implements OnInit {
   @Input("myHand") cds: number[];
+  @Input("pokemon") playerpokemon: string;
   @Input("username") playerUsername: string;
   @Input("hasPlayed") playerhasPlayed: boolean;
   cards: Card[];
@@ -48,7 +49,14 @@ export class MyHandComponent implements OnInit {
       const r = Math.floor(Math.random() * this.cards.length);
 
       this.gameService.playCard(this.playerUsername, this.cards[r].getNumber());
-      this.cards[r].setStatus('busy');
+       // tslint:disable-next-line: prefer-for-of
+      for (let index = 0; index < this.cards.length; index++) {
+        if (this.cards[index].getStatus() === 'last') {
+          this.cards[index].setStatus('old');
+        }
+      }
+
+      this.cards[r].setStatus('last');
       const message = {
         players: this.gameService.getPlayers(),
         rounds: this.gameService.getRounds(),
@@ -62,9 +70,15 @@ export class MyHandComponent implements OnInit {
   }
   playCard(playedCard) {
     if (!this.playerhasPlayed) {
+      // tslint:disable-next-line: prefer-for-of
+      for (let index = 0; index < this.cards.length; index++) {
+        if (this.cards[index].getStatus() === 'last') {
+          this.cards[index].setStatus('old');
+        }
+      }
       this.cards.forEach(e => {
-        if(e.getNumber() === playedCard) {
-            e.setStatus('busy');
+        if (e.getNumber() === playedCard) {
+            e.setStatus('last');
         }
       });
       this.gameService.playCard(this.playerUsername, playedCard);

@@ -75,3 +75,32 @@ cursor: pointer;
     height: 30px;
     width: 30px;
 }
+.roundnumber{
+    font-size: 40px;
+    margin-top: 8px;
+    padding-left: 10px ;
+    padding-right: 10px ;
+
+}
+.roundlabel{
+    font-size: 20px;
+    margin-top: 4px;
+    padding-left: 10px ;
+    padding-right: 10px ;
+}
+
+.roundsuffix{
+
+    font-size: 16px;
+}
+
+
+.currentplayer{
+    padding-left: 5px;
+}
+
+.roundgroup{
+    color: white;
+    background-color: #CD3583 ;
+    background-image: linear-gradient(to bottom right, #CD3583 , #EC7966);
+}

@@ -59,7 +59,7 @@ export class GameService {
         this.emitCpt();
         this.emitRdPlay();
         clearInterval(this.cptDecrementer);
-      //  this.decrementCpt();
+        //  this.decrementCpt();
       }
     }, 1000);
   }
@@ -91,11 +91,57 @@ export class GameService {
     this.currentPlayer = new Player(username, 'inconnu', ismaster, 0, id);
     this.players.push(new Player(username, 'inconnu', ismaster, 0, id));
     this.emitCurrentPlayer();
+    
     this.emitPlayers();
     this.board = (new Board());
     this.emitBoard();
 
   }
+
+  updateOnlySender(m) {
+    const message = m.content;
+    const p = (new Player('', '', false, 0, 0)).create(m.from);
+    console.log("in update only sender");
+  
+
+    for (let index = 0; index < this.players.length; index++) {
+      if (this.players[index].getid() === p.getid()) {
+        this.players[index] = (new Player('', '', false, 0, 0)).create(m.from);
+      }
+    }
+    console.log(this.players);
+
+    this.players.forEach(e => {
+      if (e.getid() === p.getid()) {
+        e = p;
+        console.log(e);
+      }
+    });
+
+    this.rounds = message.rounds;
+    this.board = this.board.create(message.board as Board);
+    // console.log(this.currentRound);
+    // console.log (this.rounds[this.currentRound]);
+    if (this.rounds[this.currentRound].length === this.players.length) {
+      this.updateCardBoard();
+      this.currentRound = this.currentRound++;
+      // this.currentPlayer.setHasPlayed(false);
+      // this.emitCurrentPlayer();
+    }
+    this.status = message.status;
+
+    const error = false;
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (error) {
+          reject('error'); // pass values
+        } else {
+          resolve('done'); // pass values
+        }
+      }, 1000);
+    });
+  }
+
   updateAll(m) {
     const message = m.content;
 
@@ -104,8 +150,12 @@ export class GameService {
         let p = new Player('', '', false, 0, 0);
         p = p.create(e);
         this.players.push(p);
+        if (this.currentPlayer.getUsername() === p.getUsername()) {
+          this.currentPlayer = (new Player('', '', false, 0, 0)).create(e);
+        }
       });
-    // console.log(this.players);
+
+
     this.rounds = message.rounds;
     this.board = this.board.create(message.board as Board);
     // console.log(this.currentRound);
@@ -134,6 +184,7 @@ export class GameService {
   }
   emitCurrentPlayer() {
     this.currentPlayerSubject.next(this.currentPlayer);
+   
   }
   emitStatus() {
     this.statusSubject.next(this.status);
@@ -173,6 +224,7 @@ export class GameService {
   }
   resetCpt() {
     this.cpt = 120;
+    this.stopCptDecrement();
   }
   emitCpt() {
     this.cptSubject.next(this.cpt);
@@ -245,7 +297,7 @@ export class GameService {
   }
 
   gameStarted() {
-  //  this.dealcards();
+    //  this.dealcards();
     this.status = this.STATUS.STARTED;
   }
   dealcards() {
@@ -255,9 +307,14 @@ export class GameService {
           for (let index = 0; index < 10; index++) {
             player.addcardtohand(this.board.pickRandomCard());
           }
+          if (player.getid() === this.currentPlayer.getid()) {
+            this.currentPlayer = (new Player('', '', false, 0, 0)).create(player);
+          }
         });
+
       }
     }
+
   }
 
   isWaiting(status?) {
@@ -283,7 +340,7 @@ export class GameService {
 
     for (let index = 0; index < this.players.length; index++) {
       if (this.players[index].getUsername() === this.currentPlayer.getUsername()) {
-        this.players[index] = this.currentPlayer;
+        this.players[index] = new Player(null, null, null, null, null).create(this.currentPlayer);
       }
 
     }
@@ -296,11 +353,13 @@ export class GameService {
   sortNumber(a, b) {
     return a.playedCard - b.playedCard;
   }
+
   updateCardBoard() {
     console.log('update board');
 
     this.rounds[this.currentRound].sort(this.sortNumber).forEach(element => {
       const v = this.board.getVector();
+      this.notif = { message: null, style: null };
       console.log(v);
       if (element.playedCard > v[3].n) {
         if (v[3].c === 4) {
@@ -415,7 +474,7 @@ export class GameService {
               this.ligne = temp.i;
               this.total = temp.t;
               console.log(element.username + ' reçoit ' + this.total + ' pokeballs');
-              this.notif.message = element.username + ' brise la ligne #' + (this.ligne +1) + ' et reçoit ' + this.total + ' Pokeballs de plus ';
+              this.notif.message = element.username + ' brise la ligne #' + (this.ligne + 1) + ' et reçoit ' + this.total + 'Pokeballs de plus ';
               this.notif.style = "warning";
               this.emitNotif();
               this.getPlayerByname(element.username).addBalls(this.total);
@@ -445,7 +504,6 @@ export class GameService {
     this.currentPlayer.setHasPlayed(false);
     this.currentPlayer.setRank(this.getPlayerByname(this.currentPlayer.getUsername()).getRank());
     this.currentPlayer.setPickedBalls(this.getPlayerByname(this.currentPlayer.getUsername()).getPickedBalls());
-
     if (this.currentRound > 9) {
 
       this.players.forEach((t: Player) => {
@@ -456,9 +514,10 @@ export class GameService {
 
       });
 
+    } else {
+      this.decrementCpt();
     }
-    this.stopCptDecrement();
-    this.decrementCpt();
+
   }
 
   getPlayerByname(name: string): Player {

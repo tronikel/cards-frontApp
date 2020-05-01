@@ -45,7 +45,8 @@ export class AppComponent implements AfterViewInit {
   }
   gotoHome() {
     if (this.gameService.statusIsNotWaiting()) {
-     // this.router.navigate(['../home']);
+     this.router.navigate(['../home']);
+     this.gameService = new GameService();
     } else {
       $('html').addClass('is-clipped');
       $('#logomodal').addClass('is-active');

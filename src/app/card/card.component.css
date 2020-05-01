@@ -44,7 +44,15 @@ div > img {
 .picked{	
 	color: black;
 }
-.busy{
+.last .card div{
+	-webkit-filter: blur(0.9px) grayscale(100%);
+	-moz-filter: blur(0.9px)grayscale(100%);
+	-o-filter: blur(0.9px) grayscale(100%);
+	-ms-filter: blur(0.9px) grayscale(100%);
+	filter: blur(0.9px) grayscale(100%);
+	animation: blush 5s;
+}
+.old .card div{
 	-webkit-filter: blur(0.9px) grayscale(100%);
 	-moz-filter: blur(0.9px)grayscale(100%);
 	-o-filter: blur(0.9px) grayscale(100%);
@@ -59,7 +67,7 @@ div > img {
 	-o-filter: blur(0.1px) grayscale(0%);
 	-ms-filter: blur(0.1px) grayscale(0%);
 	filter: blur(0.1px) grayscale(0%);}
-10% {-webkit-filter: blur(0.5px) grayscale(100%);
+50% {-webkit-filter: blur(0.5px) grayscale(100%);
 	-moz-filter: blur(0.5px)grayscale(100%);
 	-o-filter: blur(0.5px) grayscale(100%);
 	-ms-filter: blur(0.5px) grayscale(100%);
@@ -107,6 +115,48 @@ div > img {
     box-shadow: 1px 1px 5px 2px rgba(50, 54, 98, 1);
 }
 .card.Rattata{
+	border: 1px solid rgba(169, 98, 232, 1);
+    box-shadow: 1px 1px 5px 2px rgba(169, 98, 232, 1);
+}
+
+
+.Pikachu.last .card{
+	border: 1px solid rgba(255, 217, 0, 1);
+    box-shadow: 1px 1px 5px 2px rgba(255, 217, 0, 1);
+}
+
+.Charmander.last .card{
+	border: 1px solid rgba(247, 121, 25, 1);
+    box-shadow: 1px 1px 5px 2px rgba(247, 121, 25, 1);
+}
+
+.Squirtle.last .card{
+	border: 1px solid rgba(127, 229, 215, 1);
+    box-shadow: 1px 1px 5px 2px rgba(127, 229, 215, 1);
+}
+
+.Jigglypuff.last .card{
+	border: 1px solid rgba(239, 163, 204, 1);
+    box-shadow: 1px 1px 5px 2px rgba(239, 163, 204, 1);
+}
+.Bullbasaur.last .card{
+	border: 1px solid rgba(71, 198, 86, 1);
+    box-shadow: 1px 1px 5px 2px rgba(71, 198, 86, 1);
+}
+
+.Meowth.last .card{
+	border: 1px solid rgba(196, 186, 134, 1);
+    box-shadow: 1px 1px 5px 2px rgba(196, 186, 134, 1);
+}
+.Eevee.last .card{
+	border: 1px solid rgba(196, 131, 61, 1);
+    box-shadow: 1px 1px 5px 2px rgba(196, 131, 61, 1);
+}
+.Zubat.last .card{
+	border: 1px solid rgba(50, 54, 98, 1);
+    box-shadow: 1px 1px 5px 2px rgba(50, 54, 98, 1);
+}
+.Rattata.last .card{
 	border: 1px solid rgba(169, 98, 232, 1);
     box-shadow: 1px 1px 5px 2px rgba(169, 98, 232, 1);
 }

@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MyTokenService } from '../services/my-token.service';
 import { GameService } from '../services/game.service';
 declare var UIkit: any;
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements  OnInit, AfterViewInit {
   key = 'token';
 
   joinPartyForm: FormGroup;
@@ -28,7 +29,13 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.initJoinPartyForm();
     this.initNewPartyForm();
-    
+  }
+  
+  ngAfterViewInit() {
+    $('#tokeninput').change(() => {
+      this.tokenRejected = false;
+    });
+
   }
 
   initJoinPartyForm() {
@@ -75,16 +82,22 @@ export class HomeComponent implements OnInit {
     let result = '';
     result = result + input.message;
     if (result.split('-').length > 1) {
-      if (result.split('-')[0] === 'Error token ') {
+      if (result.split('-')[0] === 'Unknown token ') {
         this.tokenRejected = true;
         //UIkit.notification("<i class='uk-icon-close'></i> Code Inconnu : " + result.split('-')[1], { status: 'danger' });
       } else {
+        if (result.split('-')[0] === 'Started token ') {
+
+          UIkit.notification("<i class='uk-icon-close'></i> Désolé! la partie " + result.split('-')[1] + " a commencé sans vous ", { status: 'danger' });
+
+        } else {
       //  UIkit.notification("<i class='uk-icon-check'></i> Code accepté : " + result.split('-')[1], { status: 'success' });
       this.tokenRejected = false;
         this.router.navigate(['../waitingPlayers'], { queryParams: { code: result.split('-')[1] , userType: type }});
        // this.router.navigate(['waitingPlayers']);
         console.log('navigate to waiting players Pseudo');
       }
+    }
     }
   }
 }

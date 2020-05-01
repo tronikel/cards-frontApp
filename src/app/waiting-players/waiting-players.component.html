@@ -18,12 +18,12 @@
             veulent rejoindre la partie</p>
 
           <ul id="wbul" class="uk-tab uk-child-width-expand" uk-switcher>
-            <li>
-              <a href="">
+            <li >
+              <a class="disablea" href="">
                 <span class="uk-badge">1</span> Choisir un pseudo</a>
             </li>
-            <li><a href=""> <span class="uk-badge">2</span> Choisir un pokemon</a></li>
-            <li><a href=""> <span class="uk-badge">3</span> Lancer la partie</a></li>
+            <li><a class="disablea" href=""> <span class="uk-badge">2</span> Choisir un pokemon</a></li>
+            <li><a class="disablea" href=""> <span class="uk-badge">3</span> Lancer la partie</a></li>
           </ul>
 
           <ul class="uk-switcher uk-margin">
@@ -37,7 +37,7 @@
                       <span class="icon is-small is-left">
                         <i class="fa fa-user"></i>
                       </span>
-                      <input class="input" [class.is-success]="!pseudo.invalid && pseudo.touched" maxlength="10" minlength="3"
+                      <input id ="usernameinput" class="input" [class.is-success]="!pseudo.invalid && pseudo.touched" maxlength="10" minlength="3"
                         [class.is-danger]="pseudo.invalid && pseudo.touched" type="text" formControlName="pseudo"
                         placeholder="E.g.: Sacha">
                     </div>
@@ -66,9 +66,9 @@
 
               <label class="label"> Selection un pokemon </label>
               <div id="pokemons" class=" uk-flex uk-margin-auto  uk-flex-between uk-text-center" uk-grid>
-                <div class="uk-card uk-card-default uk-card-small uk-card-body  {{obj.name}} "
+                <div class="uk-card uk-card-default uk-card-small uk-card-body  {{obj.name}} " style="min-height: 235px"
                   *ngFor="let obj of pokemonsList;let i = index" [class.available]="!obj.selected"
-                  [class.unavailable]="obj.selected" (mouseover)="selectPokemon( $event, i ,obj.name)">
+                  [class.unavailable]="obj.selected" (mouseout)="removeselectiontbtn(i)" (mouseover)="selectPokemon( $event, i ,obj.name)">
                   <div class="uk-text-center">
                     <img class="uk-border-circle" width="60" height="60"
                       src="../../assets/image/pokemon/{{obj.image}}.svg">

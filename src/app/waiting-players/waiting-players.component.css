@@ -46,7 +46,7 @@ background-color:#c4ba86        ;
 opacity: 0.4;
 }
 #pokemons div.Eevee.unavailable{
-background-color:#47c656        ;
+background-color:#c4833d       ;
 opacity: 0.4;
 }
 #pokemons div.Zubat.unavailable{
@@ -164,3 +164,8 @@ color: darkgrey !important;
 #pokemons div.unavailable .gobadge {
     display: none;
 }
+
+a.disablea {
+    pointer-events: none;
+    cursor: default;
+  }

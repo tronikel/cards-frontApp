@@ -8,7 +8,7 @@ export class Player {
     private rank: number;
     private pickedBalls: number;
     private hasPlayed: boolean;
-    private hand: number[];
+    public hand: number[];
     private cpt: number;
     private id: number;
     pokemonsList: IPokemon[];
@@ -30,7 +30,9 @@ export class Player {
         r.hasPlayed = p.hasPlayed;
         r.rank = p.rank;
         r.pickedBalls = p.pickedBalls;
-        r.hand = p.hand;
+        p.hand.forEach(e => {
+            r.hand.push(e);
+        });
         r.cpt = p.cpt;
         r.id = p.id;
         return r;

@@ -13,6 +13,8 @@ export class CardComponent implements OnInit {
   @Input() status: string;
   @Input() color: string;
   @Input() number: number;
+  @Input() pokemon: string;
+
   @Input() isBoard: boolean;
   @Output() cardSelected = new EventEmitter<number>();
   @Output() cardHighlighted = new EventEmitter<number>();
@@ -47,7 +49,7 @@ export class CardComponent implements OnInit {
     if (this.isBoard) {
       return;
     }
-    if (this.status !== 'busy') {
+    if ((this.status !== 'last') && (this.status !== 'old')) {
     this.preventSingleClick = true;
     clearTimeout(this.timer);
     // alert('Double Click Event');

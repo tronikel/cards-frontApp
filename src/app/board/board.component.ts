@@ -50,9 +50,11 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.pokemonsList = allPokemons as IPokemon[];
     this.players = this.gameService.getPlayers();
-    this.currentPlayer = this.gameService.getCurrentPlayer();
+  //  this.currentPlayer = this.gameService.getCurrentPlayer();
+    console.log("current player");
+    console.log(this.gameService.getCurrentPlayer());
     this.board = this.gameService.getBoard();
-    this.dealcards();
+    //this.dealcards();
     this.updateCurrentPlayerCards();
     this.notifSubcription = this.gameService.notifSubject.subscribe(
       (notif) => {
@@ -99,17 +101,16 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.chatService.observePartyUpdate().subscribe((message) => {
       console.log('update party');
 
-      this.gameService.updateAll(message['content']).then(
+      this.gameService.updateOnlySender(message['content']).then(
         (val) => {
           this.gameService.emitPlayers();
-          this.gameService.emitCurrentPlayer();
           this.gameService.emitBoard();
+          this.gameService.emitCurrentPlayer();
+          this.gameService.emitCurrentRound();
           this.gameService.emitRounds();
-          this.gameService.emitStatus();
           this.gameService.emitEndGame();
-          // console.log('update party : content updated');
-          //console.log(this.gameService.getPlayers());
-          //UIkit.notification("<i class='uk-icon-close'></i> La partie est lancée", { status: 'success' });
+      
+
         },
         (err) => console.error(err)
       );
@@ -218,16 +219,18 @@ export class BoardComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     return result;
   }
+  getRound() {
+    return this.gameService.getCurrentRound() + 1;
+  }
+  getRoundsuffix() {
+    const res = ['-', 'er', 'e', 'e', 'e', 'e', 'e', 'e' , 'e', 'e', 'e'];
+    return res[this.gameService.getCurrentRound() + 1];
+  }
 
   updateCurrentPlayerCards() {
-    if (Array.isArray(this.players)) {
-      this.players.forEach(player => {
-        if (player.getUsername() === this.currentPlayer.getUsername()) {
-          this.currentPlayer.setHand(player.getHand());
-        }
-      });
-    }
+          this.currentPlayer = (new Player('', '', false, 0, 0)).create(this.gameService.getCurrentPlayer());
   }
+
   initplayerssection() {
     return null;
   }

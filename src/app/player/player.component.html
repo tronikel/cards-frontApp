@@ -1,5 +1,6 @@
-<div class="player uk-card uk-card-default" [class.uk-hinded]='isCurrent'>
+<div class="player uk-card uk-card-default" [class.phasPlayed]="getHasPlayed()" [class.uk-hinded]='isCurrent'>
 	<div class="uk-grid-small uk-flex-middle" uk-grid>
+		
 		<div class="uk-width-auto ">
 			<div class="padding5">
 				<img class="uk-border-circle pokeImage" [class.hasPlayed]="getHasPlayed()" width="50" height="50"
@@ -12,7 +13,7 @@
 		<div class="uk-width-expand padding5 ">
 			<div class="padding5 uk-text-left uk-flex uk-flex-column">
 				<div class="playerStat">
-					<span class="uk-text-small ranking">{{getRank()}}<span class="super">{{getRankPrefixe()}}</span></span>
+					<span class="ranklabel">Rang :</span><span class="uk-text-small ranking"> {{getRank()}}<span class="super">{{getRankPrefixe()}}</span></span>
 				</div>
 				<div class="playerStat">
 				<div class="picked-ball">

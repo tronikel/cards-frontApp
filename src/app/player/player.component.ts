@@ -28,11 +28,13 @@ export class PlayerComponent implements OnInit {
   pokemonsList: IPokemon[];
 
   constructor(private gameService: GameService) {
-    this.minutes = "02";
-    this.secondes = "00";
+    this.compteur = 120;
+  
+    this.setSecondes(this.compteur);
+    this.setMinutes(this.compteur);
     this.cptSubcription = this.gameService.cptSubject.subscribe(
       (cpt: number) => {
-        
+
         if (this.compteur < 12) {
           this.cptClass = "uk-text-danger";
         } else {
@@ -45,6 +47,7 @@ export class PlayerComponent implements OnInit {
         }
         if (!(this.player.getHasPlayed())) {
           this.compteur = cpt;
+          this.gameService.getCurrentPlayer().setCpt(cpt);
           this.setSecondes(this.compteur);
           this.setMinutes(this.compteur);
         }
@@ -56,7 +59,14 @@ export class PlayerComponent implements OnInit {
   ngOnInit() {
     this.pokemonsList = allPokemons as IPokemon[];
 
+    if (typeof this.player !== 'undefined' ) {
+      if (Number.isInteger(this.player.getCpt())) {
+        this.compteur = this.player.getCpt();
+        this.setSecondes(this.compteur);
+        this.setMinutes(this.compteur);
+      }
 
+    }
   }
 
   stopCpt() {
